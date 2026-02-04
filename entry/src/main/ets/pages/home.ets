@@ -26,16 +26,16 @@ export struct Home {
   @Builder
   refreshComponent() {
     Stack() {
-      Row() {
+      Column() {
         LoadingProgress().height(32)
-        Text(this.promptText).fontSize(16).margin({ left: 20 })
+        Text(this.promptText).fontSize(16).margin({ top: 5 })
       }
-      .alignItems(VerticalAlign.Center)
+      .alignItems(HorizontalAlign.Center)
     }
     .align(Alignment.Center)
     .clip(true)
     .padding({top: this.safeTop})
-    .constraintSize({ minHeight: 32 + this.safeTop })
+    .constraintSize({ minHeight: 42 + this.safeTop })
     .width("100%")
   }
 
@@ -101,7 +101,6 @@ export struct Home {
         this.promptText = '刷新成功'
         this.isRefreshing = false
       }, 2000)
-      console.log('onRefreshing test')
     })
 
   }
