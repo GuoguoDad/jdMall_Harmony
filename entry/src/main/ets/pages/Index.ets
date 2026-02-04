@@ -1,4 +1,5 @@
 import { Home } from "./home";
+import { Category } from "./category";
 
 @Entry
 @Component
@@ -33,25 +34,22 @@ struct Index {
     Column() {
       Tabs({barPosition:BarPosition.End, controller:this.controller, index:0}){
         TabContent(){
-          Column().width('100%').height('100%').backgroundColor(Color.Gray)
+          Home()
         }.tabBar(this.TabBuilder('首页', 0, $r("app.media.ic_home"), $r("app.media.ic_home_active")))
         TabContent(){
-          Column().width('100%').height('100%').backgroundColor(Color.Blue)
-        }.tabBar(this.TabBuilder('分类', 2, $r("app.media.ic_category"), $r("app.media.ic_category_active")))
+          Category()
+        }.tabBar(this.TabBuilder('分类', 1, $r("app.media.ic_category"), $r("app.media.ic_category_active")))
         TabContent(){
           Column().width('100%').height('100%').backgroundColor(Color.Yellow)
-        }.tabBar(this.TabBuilder('购物车', 1, $r("app.media.ic_cart"), $r("app.media.ic_cart_active")))
+        }.tabBar(this.TabBuilder('购物车', 2, $r("app.media.ic_cart"), $r("app.media.ic_cart_active")))
         TabContent(){
           Column().width('100%').height('100%').backgroundColor(Color.Green)
         }.tabBar(this.TabBuilder('我的', 3, $r("app.media.ic_mine"), $r("app.media.ic_mine_active")))
       }
       .barHeight(50 + this.safeBottom)
       .barBackgroundColor(Color.White)
-      .barOverlap(true)
       .animationDuration(0)
-      .animationMode(AnimationMode.ACTION_FIRST)
     }
-    .backgroundColor("#eeeeee")
     .width('100%')
     .height('100%')
   }
