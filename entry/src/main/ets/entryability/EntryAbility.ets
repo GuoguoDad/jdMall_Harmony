@@ -1,5 +1,6 @@
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
+import { BusinessError } from '@kit.BasicServicesKit';
 import { window } from '@kit.ArkUI';
 
 const DOMAIN = 0x0000;
@@ -24,21 +25,25 @@ export default class EntryAbility extends UIAbility {
 
     const win = windowStage.getMainWindowSync();
     win.setWindowLayoutFullScreen(true).then(() => {
-      // 获取顶部状态栏高度
-      const topArea = win.getWindowAvoidArea(window.AvoidAreaType.TYPE_SYSTEM);
-      AppStorage.setOrCreate('safeTop', px2vp(topArea.topRect.height));
-      // 获取底部导航条高度
-      const bottomArea = win.getWindowAvoidArea(window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR);
-      AppStorage.setOrCreate('safeBottom', px2vp(bottomArea.bottomRect.height));
+      console.info('Succeeded in setting the window layout to full-screen mode.');
+    }).catch((err: BusinessError) => {
+      console.error('Failed to set the window layout to full-screen mode. Cause:' + JSON.stringify(err));
+    });
 
-      windowStage.loadContent('pages/Index', (err) => {
-        if (err.code) {
-          hilog.error(DOMAIN, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err));
-          return;
-        }
-        hilog.info(DOMAIN, 'testTag', 'Succeeded in loading the content.');
-      });
-    })
+    // 获取顶部状态栏高度
+    const topArea = win.getWindowAvoidArea(window.AvoidAreaType.TYPE_SYSTEM);
+    AppStorage.setOrCreate('safeTop', px2vp(topArea.topRect.height));
+    // 获取底部导航条高度
+    const bottomArea = win.getWindowAvoidArea(window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR);
+    AppStorage.setOrCreate('safeBottom', px2vp(bottomArea.bottomRect.height));
+
+    windowStage.loadContent('pages/Index', (err) => {
+      if (err.code) {
+        hilog.error(DOMAIN, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err));
+        return;
+      }
+      hilog.info(DOMAIN, 'testTag', 'Succeeded in loading the content.');
+    });
   }
 
   onWindowStageDestroy(): void {
