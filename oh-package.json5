@@ -2,7 +2,13 @@
   "modelVersion": "6.0.2",
   "description": "Please describe the basic information.",
   "dependencies": {
-    "@ohos/axios": "^2.2.7"
+    "@ohos/axios": "^2.2.7",
+    "@ohos/imageknifepro": "^1.0.12",
+    "@ohos/pulltorefresh": "^3.0.0",
+    "@pura/harmony-utils": "^1.4.0",
+    "@pura/harmony-dialog": "^1.1.8",
+    "@yue/webview_javascript_bridge": "^1.0.1",
+    "@abner/banner": "^1.0.6"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.25",

@@ -39,15 +39,31 @@ export struct Home {
     .width("100%")
   }
 
+  @Builder
+  FoldableHeader() {
+    Column() {
+      Row() {
+        Image($r('app.media.ic_pet'))
+          .width(36).height(36)
+          .margin({left: 16})
+        Blank()
+        Image($r('app.media.scan'))
+          .width(36).height(36)
+          .margin({right: 16})
+      }
+      .width('100%')
+    }
+    .width('100%')
+    .height(40 + this.safeTop)
+    .padding({top: this.safeTop})
+    .backgroundColor('#EA3931')
+  }
+
   build() {
     Refresh({ refreshing: $$this.isRefreshing, builder: this.refreshComponent() }) {
       Scroll() {
         Column() {
-          Text("Scroll Area")
-            .width("100%")
-            .height("40%")
-            .backgroundColor(Color.White)
-            .textAlign(TextAlign.Center)
+          this.FoldableHeader()
           Tabs({ barPosition: BarPosition.Start }) {
             TabContent() {
               List() {
@@ -57,7 +73,8 @@ export struct Home {
                       .fontSize(16)
                   }.listCard()
                 }, (item: string) => item)
-              }.width("100%")
+              }
+              .width("100%")
               .edgeEffect(EdgeEffect.Spring)
               .nestedScroll({
                 scrollForward: NestedScrollMode.PARENT_FIRST,
@@ -75,8 +92,6 @@ export struct Home {
       }
       .edgeEffect(EdgeEffect.Spring)
       .friction(0.6)
-      .padding({top: this.safeTop})
-      .backgroundColor(Color.White)
       .scrollBar(BarState.Off)
       .width('100%')
       .height('100%')

@@ -1,5 +1,5 @@
-import { Home } from "./home";
-import { Category } from "./category";
+import { Home } from "./home"
+import { Category } from "./category"
 
 @Entry
 @Component
@@ -19,7 +19,7 @@ struct Index {
       Text(title)
         .fontSize(12)
         .margin({top:4})
-        .fontColor(this.currentIndex == targetIndex ? '#FC302D' : '#999999')
+        .fontColor(this.currentIndex == targetIndex ? '#FC302D' : Color.Black)
     }
     .width('100%')
     .height(50)
@@ -46,9 +46,9 @@ struct Index {
           Column().width('100%').height('100%').backgroundColor(Color.Green)
         }.tabBar(this.TabBuilder('我的', 3, $r("app.media.ic_mine"), $r("app.media.ic_mine_active")))
       }
+      .scrollable(false)
       .barHeight(50 + this.safeBottom)
       .barBackgroundColor(Color.White)
-      .animationDuration(0)
     }
     .width('100%')
     .height('100%')
