@@ -35,7 +35,7 @@ export struct Home {
     .align(Alignment.Center)
     .clip(true)
     .padding({top: this.safeTop})
-    .constraintSize({ minHeight: 42 + this.safeTop })
+    .constraintSize({ minHeight: 54 + this.safeTop })
     .width("100%")
   }
 
