@@ -140,48 +140,10 @@ export struct Home {
     }
   ])
 
-  @Styles
-  listCard() {
-    .backgroundColor(Color.White)
-    .height(72)
-    .width("100%")
-    .margin({top: 5, bottom: 5})
-    .borderRadius(12)
-  }
-
   aboutToAppear() {
     for (let i = 0; i < 30; i++) {
       this.arr.push(i)
     }
-  }
-
-  @Builder
-  TabsContentList() {
-    Tabs({ barPosition: BarPosition.Start }) {
-      TabContent() {
-        List() {
-          ForEach(this.arr, (item: number) => {
-            ListItem() {
-              Text("item" + item)
-                .fontSize(16)
-            }.listCard()
-          }, (item: string) => item)
-        }
-        .width("100%")
-        .scrollBar(BarState.Off)
-        .edgeEffect(EdgeEffect.Spring)
-        .nestedScroll({
-          scrollForward: NestedScrollMode.PARENT_FIRST,
-          scrollBackward: NestedScrollMode.SELF_FIRST
-        })
-      }.tabBar("Tab1")
-
-      TabContent() {
-      }.tabBar("Tab2")
-    }
-    .backgroundColor('#F5F5F5')
-    .vertical(false)
-    .height(StyleConstants.FULL_HEIGHT)
   }
 
   build() {
@@ -418,6 +380,44 @@ export struct Home {
         .selectedColor($r('app.color.dot_active_color'))
     )
     .curve(Curve.Linear)
+  }
+
+  @Builder
+  TabsContentList() {
+    Tabs({ barPosition: BarPosition.Start }) {
+      TabContent() {
+        List() {
+          ForEach(this.arr, (item: number) => {
+            ListItem() {
+              Text("item" + item)
+                .fontSize(16)
+            }.listCard()
+          }, (item: string) => item)
+        }
+        .width("100%")
+        .scrollBar(BarState.Off)
+        .edgeEffect(EdgeEffect.Spring)
+        .nestedScroll({
+          scrollForward: NestedScrollMode.PARENT_FIRST,
+          scrollBackward: NestedScrollMode.SELF_FIRST
+        })
+      }.tabBar("Tab1")
+
+      TabContent() {
+      }.tabBar("Tab2")
+    }
+    .backgroundColor('#F5F5F5')
+    .vertical(false)
+    .height(StyleConstants.FULL_HEIGHT)
+  }
+
+  @Styles
+  listCard() {
+    .backgroundColor(Color.White)
+    .height(72)
+    .width("100%")
+    .margin({top: 5, bottom: 5})
+    .borderRadius(12)
   }
 }
 
