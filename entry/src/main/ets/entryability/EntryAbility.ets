@@ -24,15 +24,9 @@ export default class EntryAbility extends UIAbility {
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
-    // Main window is created, set main page for this ability
-    hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
-
     const win = windowStage.getMainWindowSync();
-    win.setWindowLayoutFullScreen(true).then(() => {
-      console.info('Succeeded in setting the window layout to full-screen mode.');
-    }).catch((err: BusinessError) => {
-      console.error('Failed to set the window layout to full-screen mode. Cause:' + JSON.stringify(err));
-    });
+    win.setWindowLayoutFullScreen(true)
+    win.setWindowSystemBarProperties({ statusBarContentColor: '#FFFFFF' })
 
     // 获取顶部状态栏高度
     const topArea = win.getWindowAvoidArea(window.AvoidAreaType.TYPE_SYSTEM);
@@ -40,6 +34,7 @@ export default class EntryAbility extends UIAbility {
     // 获取底部导航条高度
     const bottomArea = win.getWindowAvoidArea(window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR);
     AppStorage.setOrCreate('safeBottom', px2vp(bottomArea.bottomRect.height));
+    AppStorage.setOrCreate('windowClass', win)
 
     windowStage.loadContent('pages/Index', (err) => {
       if (err.code) {

@@ -1,8 +1,24 @@
 {
   "color": [
     {
-      "name": "start_window_background",
-      "value": "#FFFFFF"
+      "name": "page_background",
+      "value": "#f5f5f5"
+    },
+    {
+      "name": "tab_txt_color",
+      "value": "#2E2E2E"
+    },
+    {
+      "name": "tab_active_color",
+      "value": "#FC302D"
+    },
+    {
+      "name": "dot_color",
+      "value": "#808080"
+    },
+    {
+      "name": "dot_active_color",
+      "value": "#EA3931"
     }
   ]
 }

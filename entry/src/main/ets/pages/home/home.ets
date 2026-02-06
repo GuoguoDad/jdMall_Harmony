@@ -1,4 +1,7 @@
 import { ImageKnifeComponent } from '@ohos/imageknife'
+import { StyleConstants } from '@ohos/common'
+import { LogUtil } from '@pura/harmony-utils'
+import { window } from '@kit.ArkUI'
 import { BannerInfo, GridDataSource, MenuInfo, SwiperDataSource } from './source'
 
 @Component
@@ -12,8 +15,8 @@ export struct Home {
 
   @StorageProp('safeTop') safeTop: number = 0
   @StorageProp('safeBottom') safeBottom: number = 0
+  private windowClass = AppStorage.get<window.Window>('windowClass') as window.Window
 
-  private swiperController: SwiperController = new SwiperController()
   private swiperData = new SwiperDataSource([
     {
     "imgUrl": "https://ik.imagekit.io/guoguodad/mall/home/home_banner1.jpg?updatedAt=1691716405974",
@@ -153,19 +156,102 @@ export struct Home {
   }
 
   @Builder
+  TabsContentList() {
+    Tabs({ barPosition: BarPosition.Start }) {
+      TabContent() {
+        List() {
+          ForEach(this.arr, (item: number) => {
+            ListItem() {
+              Text("item" + item)
+                .fontSize(16)
+            }.listCard()
+          }, (item: string) => item)
+        }
+        .width("100%")
+        .scrollBar(BarState.Off)
+        .edgeEffect(EdgeEffect.Spring)
+        .nestedScroll({
+          scrollForward: NestedScrollMode.PARENT_FIRST,
+          scrollBackward: NestedScrollMode.SELF_FIRST
+        })
+      }.tabBar("Tab1")
+
+      TabContent() {
+      }.tabBar("Tab2")
+    }
+    .backgroundColor('#F5F5F5')
+    .vertical(false)
+    .height(StyleConstants.FULL_HEIGHT)
+  }
+
+  build() {
+    Refresh({ refreshing: $$this.isRefreshing, builder: this.refreshComponent() }) {
+      Stack() {
+        this.FoldableHeader()
+        Scroll() {
+          Column() {
+            this.SwiperComponent()
+            this.AdvComponent()
+            this.MenuSlider()
+            this.TabsContentList()
+          }
+          .width("100%")
+          .padding({top: this.searchHeaderHeight + this.safeTop})
+        }
+        .edgeEffect(EdgeEffect.Spring)
+        .friction(0.6)
+        .scrollBar(BarState.Off)
+        .onDidScroll((xOffset: number, yOffset: number, scrollState: ScrollState) => {
+          LogUtil.info(`xOffset:${xOffset},yOffset:${yOffset},scrollState: ${scrollState}`)
+        })
+        .width(StyleConstants.FULL_WIDTH)
+        .height(StyleConstants.FULL_HEIGHT)
+      }
+    }
+    .pullToRefresh(true)
+    .refreshOffset(96)
+    .onStateChange((refreshStatus: RefreshStatus) => {
+      switch (refreshStatus) {
+        case RefreshStatus.Drag:
+          this.promptText = '下拉刷新'
+          break
+        case RefreshStatus.OverDrag:
+          this.promptText = '松开立即刷新...'
+          break
+        case RefreshStatus.Refresh:
+          this.promptText = '正在刷新'
+          break
+      }
+    })
+    .onOffsetChange(offset => {
+      if(offset > this.safeTop) {
+        this.windowClass.setWindowSystemBarProperties({ statusBarContentColor: '#000000' })
+      } else {
+        this.windowClass.setWindowSystemBarProperties({ statusBarContentColor: '#FFFFFF' })
+      }
+    })
+    .onRefreshing(() => {
+      setTimeout(() => {
+        this.promptText = '刷新成功'
+        this.isRefreshing = false
+      }, 2000)
+    })
+  }
+
+  @Builder
   refreshComponent() {
     Stack() {
       Column() {
         LoadingProgress().height(32)
-        Text(this.promptText).fontSize(16).margin({ top: 5 })
+        Text(this.promptText).fontSize(StyleConstants.FONT_SIZE_TWELVE).margin({ top: 2 }).fontColor(Color.Grey)
       }
       .alignItems(HorizontalAlign.Center)
     }
     .align(Alignment.Center)
     .clip(true)
-    .padding({top: this.safeTop})
+    .padding({top: this.safeTop, bottom: 5})
     .constraintSize({ minHeight: 54 + this.safeTop })
-    .width("100%")
+    .width(StyleConstants.FULL_WIDTH)
   }
 
   @Builder
@@ -192,7 +278,7 @@ export struct Home {
               left: 6,
               right: 6
             })
-            .fontSize(16)
+            .fontSize(StyleConstants.FONT_SIZE_SIXTEEN)
             .fontColor('#8F9093')
             .textAlign(TextAlign.Center)
           Blank()
@@ -209,7 +295,7 @@ export struct Home {
       .padding({left: 16, right: 16})
       .position({x: 0, y: 40 + this.safeTop})
     }
-    .width('100%')
+    .width(StyleConstants.FULL_WIDTH)
     .height(this.searchHeaderHeight + this.safeTop)
     .backgroundColor('#EA3931')
     .position({x: 0, y: 0})
@@ -220,14 +306,14 @@ export struct Home {
   SwiperComponent() {
     Column() {
       Column() {
-        Swiper(this.swiperController) {
+        Swiper() {
           LazyForEach(this.swiperData, (item: BannerInfo) => {
             ImageKnifeComponent({
               imageKnifeOption: {
                 loadSrc: item.imgUrl,
                 objectFit: ImageFit.Cover
               }
-            }).width('100%').height(150)
+            }).width(StyleConstants.FULL_WIDTH).height(150)
           }, (item: string) => item)
         }
         .borderRadius(6)
@@ -244,18 +330,18 @@ export struct Home {
             .itemHeight(8)
             .selectedItemWidth(8)
             .selectedItemHeight(8)
-            .color(Color.Gray)
-            .selectedColor('#EA3931')
+            .color($r('app.color.dot_color'))
+            .selectedColor($r('app.color.dot_active_color'))
             .maxDisplayCount(9)
         )
         .curve(Curve.Linear)
       }
-      .width('100%')
+      .width(StyleConstants.FULL_WIDTH)
       .padding({left:12, top: 14, right: 12, bottom: 2})
       .backgroundColor(Color.White)
       .borderRadius({topLeft: 8, topRight: 8})
     }
-    .width('100%')
+    .width(StyleConstants.FULL_WIDTH)
     .backgroundColor('#EA3931')
   }
 
@@ -266,12 +352,12 @@ export struct Home {
         loadSrc: 'https://ik.imagekit.io/guoguodad/mall/home/ad_img.png?updatedAt=1691716521394',
         objectFit: ImageFit.Fill
       }
-    }).width('100%').height(78)
+    }).width(StyleConstants.FULL_WIDTH).height(78)
   }
 
   @Builder
   MenuSlider() {
-    Swiper(this.swiperController) {
+    Swiper() {
       Grid() {
         LazyForEach(this.nineMenuList, (item: MenuInfo) => {
           GridItem() {
@@ -290,7 +376,7 @@ export struct Home {
           }
         }, (item: MenuInfo) => item.menuCode)
       }
-      .padding({bottom: 20})
+      .padding({bottom: 26})
       .columnsTemplate('1fr 1fr 1fr 1fr 1fr')
       .rowsTemplate('1fr 1fr')
 
@@ -312,12 +398,12 @@ export struct Home {
           }
         }, (item: MenuInfo) => item.menuCode)
       }
-      .padding({bottom: 20})
+      .padding({bottom: 26})
       .columnsTemplate('1fr 1fr 1fr 1fr 1fr')
       .rowsTemplate('1fr 1fr')
     }
-    .height(160)
-    .width('100%')
+    .height(168)
+    .width(StyleConstants.FULL_WIDTH)
     .index(0)
     .autoPlay(false)
     .loop(false)
@@ -328,84 +414,10 @@ export struct Home {
         .itemHeight(6)
         .selectedItemWidth(6)
         .selectedItemHeight(6)
-        .color(Color.Gray)
-        .selectedColor('#EA3931')
+        .color($r('app.color.dot_color'))
+        .selectedColor($r('app.color.dot_active_color'))
     )
     .curve(Curve.Linear)
-  }
-
-  @Builder
-  TabsContentList() {
-    Tabs({ barPosition: BarPosition.Start }) {
-      TabContent() {
-        List() {
-          ForEach(this.arr, (item: number) => {
-            ListItem() {
-              Text("item" + item)
-                .fontSize(16)
-            }.listCard()
-          }, (item: string) => item)
-        }
-        .width("100%")
-        .scrollBar(BarState.Off)
-        .edgeEffect(EdgeEffect.Spring)
-        .nestedScroll({
-          scrollForward: NestedScrollMode.PARENT_FIRST,
-          scrollBackward: NestedScrollMode.SELF_FIRST
-        })
-      }.tabBar("Tab1")
-
-      TabContent() {
-      }.tabBar("Tab2")
-    }
-    .backgroundColor('#F5F5F5')
-    .vertical(false)
-    .height("100%")
-  }
-
-  build() {
-    Refresh({ refreshing: $$this.isRefreshing, builder: this.refreshComponent() }) {
-      Stack() {
-        this.FoldableHeader()
-        Scroll() {
-          Column() {
-            this.SwiperComponent()
-            this.AdvComponent()
-            this.MenuSlider()
-            this.TabsContentList()
-          }
-          .width("100%")
-          .padding({top: this.searchHeaderHeight + this.safeTop})
-        }
-        .edgeEffect(EdgeEffect.Spring)
-        .friction(0.6)
-        .scrollBar(BarState.Off)
-        .width('100%')
-        .height('100%')
-      }
-    }
-    .pullToRefresh(true)
-    .refreshOffset(96)
-    .onStateChange((refreshStatus: RefreshStatus) => {
-      switch (refreshStatus) {
-        case RefreshStatus.Drag:
-          this.promptText = '下拉刷新'
-          break
-        case RefreshStatus.OverDrag:
-          this.promptText = '松开立即刷新...'
-          break
-        case RefreshStatus.Refresh:
-          this.promptText = '正在刷新'
-          break
-      }
-    })
-    .onRefreshing(() => {
-      setTimeout(() => {
-        this.promptText = '刷新成功'
-        this.isRefreshing = false
-      }, 2000)
-    })
-
   }
 }
 

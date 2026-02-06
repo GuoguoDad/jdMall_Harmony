@@ -1,3 +1,4 @@
+import { StyleConstants } from '@ohos/common'
 import { Home } from "./home/home"
 import { Category } from "./category"
 
@@ -11,15 +12,15 @@ struct Index {
   @StorageProp('safeBottom') safeBottom: number = 0
 
   @Builder
-  TabBuilder(title:string,targetIndex:number,normalImg:Resource,selectedImg:Resource){
+  TabBuilder(title:string, targetIndex:number, normalImg:Resource, selectedImg:Resource){
     Column(){
-      Image(this.currentIndex==targetIndex?selectedImg:normalImg)
+      Image(this.currentIndex == targetIndex ? selectedImg:normalImg)
         .width(28)
         .height(28)
       Text(title)
-        .fontSize(12)
+        .fontSize(StyleConstants.FONT_SIZE_TWELVE)
         .margin({top:4})
-        .fontColor(this.currentIndex == targetIndex ? '#FC302D' : Color.Black)
+        .fontColor(this.currentIndex == targetIndex ? $r('app.color.tab_active_color') : $r('app.color.tab_txt_color'))
     }
     .width('100%')
     .height(50)
@@ -50,7 +51,7 @@ struct Index {
       .barHeight(50 + this.safeBottom)
       .barBackgroundColor(Color.White)
     }
-    .width('100%')
-    .height('100%')
+    .width(StyleConstants.FULL_WIDTH)
+    .height(StyleConstants.FULL_HEIGHT)
   }
 }
