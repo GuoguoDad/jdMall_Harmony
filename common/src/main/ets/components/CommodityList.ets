@@ -3,9 +3,16 @@ import { StyleConstants } from '../../../../Index'
 import { WaterFlowDataSource } from '../utils/WaterFlowDataSource'
 import { CommodityInfo } from '../viewmodel/CommodityModel'
 
+enum FooterState {
+  Loading = 0,
+  End = 1
+}
+
 @Component
 export struct CommodityList {
   @Prop itemWidth: number = 0;
+
+  @State footerState: FooterState = FooterState.Loading
 
   private dataSource = new WaterFlowDataSource<CommodityInfo>([
     {
@@ -126,6 +133,61 @@ export struct CommodityList {
     }
   ])
 
+  build() {
+    WaterFlow({footer: this.itemFoot()}) {
+      LazyForEach(this.dataSource, (item: CommodityInfo) => {
+        FlowItem() {
+         this.GoodsItem(item)
+        }
+        .width(StyleConstants.FULL_WIDTH)
+      }, (item:CommodityInfo) => item.id)
+    }
+    .columnsTemplate('1fr 1fr')
+    .rowsGap(10)
+    .columnsGap(10)
+    .padding({left: 5, right: 5})
+    .width(StyleConstants.FULL_WIDTH)
+    .height(StyleConstants.FULL_HEIGHT)
+    .nestedScroll({
+      scrollForward: NestedScrollMode.PARENT_FIRST,
+      scrollBackward: NestedScrollMode.SELF_FIRST
+    })
+    .onReachEnd(() => {
+      if (this.dataSource.totalCount() > 200) {
+        this.footerState = FooterState.End;
+        return;
+      }
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.dataSource.addLastItem();
+        }
+      }, 1000)
+    })
+  }
+
+  @Builder
+  itemFoot() {
+    Column() {
+      if (this.footerState == FooterState.Loading) {
+        Text(`加载中...`)
+          .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
+          .fontColor(Color.Grey)
+      } else if (this.footerState == FooterState.End) {
+        Text(`到底啦...`)
+          .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
+          .fontColor(Color.Grey)
+      } else {
+        Text(`Footer`)
+          .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
+          .fontColor(Color.Grey)
+      }
+    }
+    .height(58)
+    .width(StyleConstants.FULL_WIDTH)
+    .alignItems(HorizontalAlign.Center)
+    .justifyContent(FlexAlign.Center)
+  }
+
   @Builder
   GoodsItem(item: CommodityInfo) {
     Column() {
@@ -179,26 +241,5 @@ export struct CommodityList {
     .alignItems(HorizontalAlign.Center)
     .backgroundColor(Color.White)
     .borderRadius(8)
-  }
-
-  build() {
-    WaterFlow() {
-      LazyForEach(this.dataSource, (item: CommodityInfo) => {
-        FlowItem() {
-         this.GoodsItem(item)
-        }
-        .width(StyleConstants.FULL_WIDTH)
-      }, (item:CommodityInfo) => item.id)
-    }
-    .columnsTemplate('1fr 1fr')
-    .rowsGap(10)
-    .columnsGap(10)
-    .padding({left: 5, right: 5})
-    .width(StyleConstants.FULL_WIDTH)
-    .height(StyleConstants.FULL_HEIGHT)
-    .nestedScroll({
-      scrollForward: NestedScrollMode.PARENT_FIRST,
-      scrollBackward: NestedScrollMode.SELF_FIRST
-    })
   }
 }

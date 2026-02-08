@@ -85,6 +85,11 @@ export class WaterFlowDataSource<T> implements IDataSource {
     this.notifyDataDelete(0);
   }
 
+  public addLastItem(): void {
+    this.dataArray.splice(this.dataArray.length, 0, this.dataArray[this.dataArray.length -1]);
+    this.notifyDataAdd(this.dataArray.length - 1);
+  }
+
   // 删除第二个元素
   public delete2ndItem(): void {
     this.dataArray.splice(1, 1);
