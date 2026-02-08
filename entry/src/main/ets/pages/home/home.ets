@@ -1,12 +1,14 @@
 import { ImageKnifeComponent } from '@ohos/imageknife'
-import { StyleConstants } from '@ohos/common'
-import { LogUtil } from '@pura/harmony-utils'
+import { StyleConstants, CommodityList } from '@ohos/common'
+import { DisplayUtil, LogUtil } from '@pura/harmony-utils'
 import { window } from '@kit.ArkUI'
-import { BannerInfo, GridDataSource, MenuInfo, SwiperDataSource } from './source'
+import { BannerInfo, GridDataSource, MenuInfo, SwiperDataSource, WaterFlowDataSource, GoodsInfo } from './source'
 
 @Component
 export struct Home {
   @State arr: number[] = []
+  @State currentIndex: number = 0
+  private controller = new TabsController()
 
   @State searchHeaderHeight: number = 80 //min-40, max 80
 
@@ -140,6 +142,8 @@ export struct Home {
     }
   ])
 
+  goodsItemWidth = (DisplayUtil.getWidth() - 30) / 2
+
   aboutToAppear() {
     for (let i = 0; i < 30; i++) {
       this.arr.push(i)
@@ -157,12 +161,13 @@ export struct Home {
             this.MenuSlider()
             this.TabsContentList()
           }
-          .width("100%")
+          .width(StyleConstants.FULL_WIDTH)
           .padding({top: this.searchHeaderHeight + this.safeTop})
         }
         .edgeEffect(EdgeEffect.Spring)
         .friction(0.6)
         .scrollBar(BarState.Off)
+        .backgroundColor('#F6F0F7')
         .onDidScroll((xOffset: number, yOffset: number, scrollState: ScrollState) => {
           LogUtil.info(`xOffset:${xOffset},yOffset:${yOffset},scrollState: ${scrollState}`)
         })
@@ -314,7 +319,7 @@ export struct Home {
         loadSrc: 'https://ik.imagekit.io/guoguodad/mall/home/ad_img.png?updatedAt=1691716521394',
         objectFit: ImageFit.Fill
       }
-    }).width(StyleConstants.FULL_WIDTH).height(78)
+    }).width(StyleConstants.FULL_WIDTH).height(78).backgroundColor(Color.White)
   }
 
   @Builder
@@ -369,6 +374,7 @@ export struct Home {
     .index(0)
     .autoPlay(false)
     .loop(false)
+    .backgroundColor(Color.White)
     .itemSpace(0)
     .indicator( // 设置圆点导航点样式
       new DotIndicator()
@@ -383,30 +389,41 @@ export struct Home {
   }
 
   @Builder
+  TabBarBuilder(title:string, targetIndex:number){
+    Column(){
+      Text(title)
+        .fontSize(StyleConstants.FONT_SIZE_SIXTEEN)
+        .fontColor(this.currentIndex == targetIndex ? $r('app.color.tab_active_color') : $r('app.color.tab_txt_color'))
+    }
+    .justifyContent(FlexAlign.Center)
+    .width(StyleConstants.FULL_WIDTH)
+    .height(50)
+    .onClick(()=>{
+      this.currentIndex = targetIndex
+      this.controller.changeIndex(this.currentIndex)
+    })
+  }
+
+  @Builder
   TabsContentList() {
-    Tabs({ barPosition: BarPosition.Start }) {
+    Tabs({ barPosition: BarPosition.Start, controller: this.controller }) {
       TabContent() {
-        List() {
-          ForEach(this.arr, (item: number) => {
-            ListItem() {
-              Text("item" + item)
-                .fontSize(16)
-            }.listCard()
-          }, (item: string) => item)
-        }
-        .width("100%")
-        .scrollBar(BarState.Off)
-        .edgeEffect(EdgeEffect.Spring)
-        .nestedScroll({
-          scrollForward: NestedScrollMode.PARENT_FIRST,
-          scrollBackward: NestedScrollMode.SELF_FIRST
-        })
-      }.tabBar("Tab1")
+        CommodityList({itemWidth: this.goodsItemWidth})
+      }.tabBar(this.TabBarBuilder("精选", 0))
 
       TabContent() {
-      }.tabBar("Tab2")
+        CommodityList({itemWidth: this.goodsItemWidth})
+      }.tabBar(this.TabBarBuilder("新品", 1))
+
+      TabContent() {
+        CommodityList({itemWidth: this.goodsItemWidth})
+      }.tabBar(this.TabBarBuilder("实惠", 2))
+
+      TabContent() {
+        CommodityList({itemWidth: this.goodsItemWidth})
+      }.tabBar(this.TabBarBuilder("进口", 3))
     }
-    .backgroundColor('#F5F5F5')
+    .barHeight(50)
     .vertical(false)
     .height(StyleConstants.FULL_HEIGHT)
   }

@@ -3,6 +3,10 @@
     {
       "name": "page_text_font_size",
       "value": "50fp"
+    },
+    {
+      "name": "commodity_item_image_size",
+      "value": "132vp"
     }
   ]
 }

@@ -164,6 +164,10 @@ export class StyleConstants {
 
   static readonly DEVICE_2IN1: string = '2in1';
 
+  static readonly FONT_SIZE_TWENTY: number = 20;
+
+  static readonly FONT_SIZE_TWENTY_TWO: number = 22;
+
   static readonly FONT_SIZE_TWENTY_FOUR: number = 24;
 
   static readonly FONT_SIZE_EIGHTEEN: number = 18;
