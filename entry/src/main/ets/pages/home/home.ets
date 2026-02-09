@@ -7,9 +7,6 @@ import { BannerInfo, GridDataSource, MenuInfo, SwiperDataSource } from './source
 @Component
 export struct Home {
   @State arr: number[] = []
-  @State currentIndex: number = 0
-  private controller = new TabsController()
-
   @State searchHeaderHeight: number = 80 //min-40, max 80
 
   @State isRefreshing: boolean = false
@@ -21,10 +18,11 @@ export struct Home {
   @StorageProp('safeTop') safeTop: number = 0
   @StorageProp('safeBottom') safeBottom: number = 0
 
-  private scroller: Scroller = new Scroller()
+  private tabsController = new TabsController()
+  private scrollScroller: Scroller = new Scroller()
   private windowClass = AppStorage.get<window.Window>('windowClass') as window.Window
 
-  private waterFlowControllers: Scroller[] = [new Scroller(), new Scroller(), new Scroller(), new Scroller()]
+  private waterFlowScrollerList: Scroller[] = [new Scroller(), new Scroller(), new Scroller(), new Scroller()]
 
   private swiperData = new SwiperDataSource([
     {
@@ -161,7 +159,7 @@ export struct Home {
     Refresh({ refreshing: $$this.isRefreshing, builder: this.refreshComponent() }) {
       Stack() {
         this.FoldableHeader()
-        Scroll(this.scroller) {
+        Scroll(this.scrollScroller) {
           Column() {
             this.SwiperComponent()
             this.AdvComponent()
@@ -175,9 +173,6 @@ export struct Home {
         .friction(0.6)
         .scrollBar(BarState.Off)
         .backgroundColor('#F6F0F7')
-        .onDidScroll((xOffset: number, yOffset: number, scrollState: ScrollState) => {
-          LogUtil.info(`xOffset:${xOffset},yOffset:${yOffset},scrollState: ${scrollState}`)
-        })
         .width(StyleConstants.FULL_WIDTH)
         .height(StyleConstants.FULL_HEIGHT)
 
@@ -402,23 +397,23 @@ export struct Home {
     Column(){
       Text(title)
         .fontSize(StyleConstants.FONT_SIZE_SIXTEEN)
-        .fontColor(this.currentIndex == targetIndex ? $r('app.color.tab_active_color') : $r('app.color.tab_txt_color'))
+        .fontColor(this.tabsCurrentIndex == targetIndex ? $r('app.color.tab_active_color') : $r('app.color.tab_txt_color'))
     }
     .justifyContent(FlexAlign.Center)
     .width(StyleConstants.FULL_WIDTH)
     .height(50)
     .onClick(()=>{
-      this.currentIndex = targetIndex
-      this.controller.changeIndex(this.currentIndex)
+      this.tabsCurrentIndex = targetIndex
+      this.tabsController.changeIndex(this.tabsCurrentIndex)
     })
   }
 
   @Builder
   TabsContentList() {
-    Tabs({ barPosition: BarPosition.Start, controller: this.controller }) {
+    Tabs({ barPosition: BarPosition.Start, controller: this.tabsController }) {
       TabContent() {
         CommodityList({
-          scrollController: this.waterFlowControllers[0],
+          scrollController: this.waterFlowScrollerList[0],
           itemWidth: this.goodsItemWidth,
           onScrollIndexCall: (first => { this.showBackTop[0] = first > 2 })
         })
@@ -426,7 +421,7 @@ export struct Home {
 
       TabContent() {
         CommodityList({
-          scrollController: this.waterFlowControllers[1],
+          scrollController: this.waterFlowScrollerList[1],
           itemWidth: this.goodsItemWidth,
           onScrollIndexCall: (first => { this.showBackTop[1] = first > 2 })
         })
@@ -434,7 +429,7 @@ export struct Home {
 
       TabContent() {
         CommodityList({
-          scrollController: this.waterFlowControllers[2],
+          scrollController: this.waterFlowScrollerList[2],
           itemWidth: this.goodsItemWidth,
           onScrollIndexCall: (first => { this.showBackTop[2] = first > 2 })
         })
@@ -442,7 +437,7 @@ export struct Home {
 
       TabContent() {
         CommodityList({
-          scrollController: this.waterFlowControllers[3],
+          scrollController: this.waterFlowScrollerList[3],
           itemWidth: this.goodsItemWidth,
           onScrollIndexCall: (first => { this.showBackTop[3] = first > 2 })
         })
@@ -451,10 +446,6 @@ export struct Home {
     .barHeight(50)
     .vertical(false)
     .height(StyleConstants.FULL_HEIGHT)
-    .onChange(index => {
-      // LogUtil.info(`onChange index:${index}`)
-      this.tabsCurrentIndex = index
-    })
   }
 
 
@@ -473,10 +464,10 @@ export struct Home {
     .position({ x: '85%', y: '90%' })
     .visibility(this.showBackTop[this.tabsCurrentIndex] ? Visibility.Visible : Visibility.None)
     .onClick(()=> {
-      this.waterFlowControllers.forEach((_, index) => {
-        this.waterFlowControllers[index].scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 200, curve: Curve.Friction }})
+      this.waterFlowScrollerList.forEach((_, index) => {
+        this.waterFlowScrollerList[index].scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 200, curve: Curve.Friction }})
       })
-      this.scroller.scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 400, curve: Curve.Friction }})
+      this.scrollScroller.scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 400, curve: Curve.Friction }})
     })
   }
 
