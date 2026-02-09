@@ -2,7 +2,7 @@ import { ImageKnifeComponent } from '@ohos/imageknife'
 import { StyleConstants, CommodityList } from '@ohos/common'
 import { DisplayUtil, LogUtil } from '@pura/harmony-utils'
 import { window } from '@kit.ArkUI'
-import { BannerInfo, GridDataSource, MenuInfo, SwiperDataSource, WaterFlowDataSource, GoodsInfo } from './source'
+import { BannerInfo, GridDataSource, MenuInfo, SwiperDataSource } from './source'
 
 @Component
 export struct Home {
@@ -15,9 +15,16 @@ export struct Home {
   @State isRefreshing: boolean = false
   @State promptText: string = "下拉刷新"
 
+  @State tabsCurrentIndex: number = 0
+  @State showBackTop: boolean[] = [false, false, false, false]
+
   @StorageProp('safeTop') safeTop: number = 0
   @StorageProp('safeBottom') safeBottom: number = 0
+
+  private scroller: Scroller = new Scroller()
   private windowClass = AppStorage.get<window.Window>('windowClass') as window.Window
+
+  private waterFlowControllers: Scroller[] = [new Scroller(), new Scroller(), new Scroller(), new Scroller()]
 
   private swiperData = new SwiperDataSource([
     {
@@ -154,7 +161,7 @@ export struct Home {
     Refresh({ refreshing: $$this.isRefreshing, builder: this.refreshComponent() }) {
       Stack() {
         this.FoldableHeader()
-        Scroll() {
+        Scroll(this.scroller) {
           Column() {
             this.SwiperComponent()
             this.AdvComponent()
@@ -173,6 +180,8 @@ export struct Home {
         })
         .width(StyleConstants.FULL_WIDTH)
         .height(StyleConstants.FULL_HEIGHT)
+
+        this.BackTop()
       }
     }
     .pullToRefresh(true)
@@ -408,24 +417,67 @@ export struct Home {
   TabsContentList() {
     Tabs({ barPosition: BarPosition.Start, controller: this.controller }) {
       TabContent() {
-        CommodityList({itemWidth: this.goodsItemWidth})
+        CommodityList({
+          scrollController: this.waterFlowControllers[0],
+          itemWidth: this.goodsItemWidth,
+          onScrollIndexCall: (first => { this.showBackTop[0] = first > 2 })
+        })
       }.tabBar(this.TabBarBuilder("精选", 0))
 
       TabContent() {
-        CommodityList({itemWidth: this.goodsItemWidth})
+        CommodityList({
+          scrollController: this.waterFlowControllers[1],
+          itemWidth: this.goodsItemWidth,
+          onScrollIndexCall: (first => { this.showBackTop[1] = first > 2 })
+        })
       }.tabBar(this.TabBarBuilder("新品", 1))
 
       TabContent() {
-        CommodityList({itemWidth: this.goodsItemWidth})
+        CommodityList({
+          scrollController: this.waterFlowControllers[2],
+          itemWidth: this.goodsItemWidth,
+          onScrollIndexCall: (first => { this.showBackTop[2] = first > 2 })
+        })
       }.tabBar(this.TabBarBuilder("实惠", 2))
 
       TabContent() {
-        CommodityList({itemWidth: this.goodsItemWidth})
+        CommodityList({
+          scrollController: this.waterFlowControllers[3],
+          itemWidth: this.goodsItemWidth,
+          onScrollIndexCall: (first => { this.showBackTop[3] = first > 2 })
+        })
       }.tabBar(this.TabBarBuilder("进口", 3))
     }
     .barHeight(50)
     .vertical(false)
     .height(StyleConstants.FULL_HEIGHT)
+    .onChange(index => {
+      // LogUtil.info(`onChange index:${index}`)
+      this.tabsCurrentIndex = index
+    })
+  }
+
+
+  @Builder
+  BackTop() {
+    Button() {
+      Image($r('app.media.ic_back_top'))
+        .width(24)
+        .height(24)
+    }
+    .width(50)
+    .height(50)
+    .borderRadius(25)
+    .backgroundColor(Color.White)
+    .shadow({ radius: 8, color: Color.Gray, offsetX: 2, offsetY: 2 })
+    .position({ x: '85%', y: '90%' })
+    .visibility(this.showBackTop[this.tabsCurrentIndex] ? Visibility.Visible : Visibility.None)
+    .onClick(()=> {
+      this.waterFlowControllers.forEach((_, index) => {
+        this.waterFlowControllers[index].scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 200, curve: Curve.Friction }})
+      })
+      this.scroller.scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 400, curve: Curve.Friction }})
+    })
   }
 
   @Styles

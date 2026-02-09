@@ -10,9 +10,12 @@ enum FooterState {
 
 @Component
 export struct CommodityList {
-  @Prop itemWidth: number = 0;
+  @Prop itemWidth: number = 0
 
   @State footerState: FooterState = FooterState.Loading
+
+  private scrollController!: Scroller
+  private onScrollIndexCall!: (first: number) => void
 
   private dataSource = new WaterFlowDataSource<CommodityInfo>([
     {
@@ -133,8 +136,14 @@ export struct CommodityList {
     }
   ])
 
+  constructor(scrollController: Scroller, onScrollIndexCall: (first: number) => void) {
+    super()
+    this.scrollController = scrollController
+    this.onScrollIndexCall = onScrollIndexCall
+  }
+
   build() {
-    WaterFlow({footer: this.itemFoot()}) {
+    WaterFlow({scroller: this.scrollController, footer: this.itemFoot()}) {
       LazyForEach(this.dataSource, (item: CommodityInfo) => {
         FlowItem() {
          this.GoodsItem(item)
@@ -151,6 +160,9 @@ export struct CommodityList {
     .nestedScroll({
       scrollForward: NestedScrollMode.PARENT_FIRST,
       scrollBackward: NestedScrollMode.SELF_FIRST
+    })
+    .onScrollIndex((first)=> {
+      if(this.onScrollIndexCall) this.onScrollIndexCall(first)
     })
     .onReachEnd(() => {
       if (this.dataSource.totalCount() > 200) {
@@ -226,7 +238,7 @@ export struct CommodityList {
         .padding({left: 8, right: 8, top: 2, bottom: 2})
         .linearGradient({
           angle: 0,
-          colors: [['#DD1A1E', 1.0],['#DD1A1E', 0.5], ['#DD1A1E', 0.1]]
+          colors: [['#D2554F', 1.0],['#D47273', 0.5], ['#D79098', 0.2]]
         })
         Text(item.des1).fontSize(StyleConstants.FONT_SIZE_FOURTEEN).fontColor('#EC5F5A').margin({top: 4})
         Text(item.des2).fontSize(StyleConstants.FONT_SIZE_FOURTEEN).fontColor('#9E9F9E').margin({top: 4})
@@ -237,7 +249,7 @@ export struct CommodityList {
       .alignItems(HorizontalAlign.Start)
       .visibility(item.type == '2' ? Visibility.Visible: Visibility.None)
     }
-    .width('100%')
+    .width(StyleConstants.FULL_WIDTH)
     .alignItems(HorizontalAlign.Center)
     .backgroundColor(Color.White)
     .borderRadius(8)
