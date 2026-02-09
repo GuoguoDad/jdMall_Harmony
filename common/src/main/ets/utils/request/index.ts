@@ -16,7 +16,6 @@ instance.defaults.headers.post['Access-Control-Allow-Credentials'] = true
 
 // 请求拦截器
 instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-    // 添加token
     const token = ''
     if (token && config.headers) {
       config.headers['Authorization'] = `Bearer ${token}`
@@ -27,10 +26,11 @@ instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
       config.headers['Platform'] = 'harmony'
     }
 
-    console.log(`[Request] ${config.method?.toUpperCase()} ${config.url}`)
+    // console.log(`axios [resquest] ${config.method?.toUpperCase()} ${config.url}`)
     return config;
   },
   (error: any) => {
+    // console.log('=======axios error:', error)
     return Promise.reject(error)
   }
 )
@@ -39,10 +39,10 @@ instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 instance.interceptors.response.use((response: AxiosResponse) => {
     const { data, config } = response
 
-    console.log(`[Response] ${config.method?.toUpperCase()} ${config.url}:`, data)
+    // console.log(`axios [Response] ${config.method?.toUpperCase()} ${config.url}:`, JSON.stringify(data))
 
     // 业务成功处理
-    if (data.code === 0 || data.success) {
+    if (isSuccess(data.code)) {
       return data
     }
 
@@ -51,6 +51,7 @@ instance.interceptors.response.use((response: AxiosResponse) => {
     return Promise.reject(data)
   },
   (error: any) => {
+    // console.log('=======axios error:', error)
     // 网络错误处理
     if (error.code) {
       handleNetworkError(error.code)
@@ -115,26 +116,28 @@ function handleHttpError(status: number) {
   }
 }
 
+const isSuccess = (code: string) => ['0'].includes(code)
+
 // 封装常用请求方法
 class RequestUtil {
   // GET请求
   static get<T = any>(url: string, config?: AxiosRequestConfig) {
-    return instance.get<BaseResponse<T>>(url, config).then(res => res.data)
+    return instance.get<BaseResponse<T>>(url, config).then(res => res as unknown as BaseResponse<T>)
   }
 
   // POST请求
-  static post<T = any>(url: string, data?: any, config?: AxiosRequestConfig) {
-    return instance.post<BaseResponse<T>>(url, data, config).then(res => res.data)
+  static post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+    return instance.post(url, data, config).then(res => res as unknown as BaseResponse<T>)
   }
 
   // PUT请求
   static put<T = any>(url: string, data?: any, config?: AxiosRequestConfig) {
-    return instance.put<BaseResponse<T>>(url, data, config).then(res => res.data)
+    return instance.put<BaseResponse<T>>(url, data, config).then(res => res as unknown as BaseResponse<T>)
   }
 
   // DELETE请求
   static delete<T = any>(url: string, config?: AxiosRequestConfig) {
-    return instance.delete<BaseResponse<T>>(url, config).then(res => res.data)
+    return instance.delete<BaseResponse<T>>(url, config).then(res => res as unknown as BaseResponse<T>)
   }
 
   // 文件上传
@@ -153,7 +156,7 @@ class RequestUtil {
         'Content-Type': 'multipart/form-data'
       },
       ...config
-    }).then(res => res.data)
+    }).then(res => res as unknown as BaseResponse<T>)
   }
 
   // 文件下载
@@ -161,7 +164,7 @@ class RequestUtil {
     return instance.get(url, {
       responseType: 'array_buffer',
       ...config
-    }).then(res => res.data)
+    }).then(res => res)
   }
 
   static createCancelToken() {
@@ -171,4 +174,4 @@ class RequestUtil {
   }
 }
 
-export { RequestUtil }
+export { RequestUtil, isSuccess }

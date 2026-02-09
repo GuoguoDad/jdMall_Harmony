@@ -413,6 +413,7 @@ export struct Home {
     Tabs({ barPosition: BarPosition.Start, controller: this.tabsController }) {
       TabContent() {
         CommodityList({
+          categoryCode: '01',
           scrollController: this.waterFlowScrollerList[0],
           itemWidth: this.goodsItemWidth,
           onScrollIndexCall: (first => { this.showBackTop[0] = first > 2 })
@@ -421,6 +422,7 @@ export struct Home {
 
       TabContent() {
         CommodityList({
+          categoryCode: '02',
           scrollController: this.waterFlowScrollerList[1],
           itemWidth: this.goodsItemWidth,
           onScrollIndexCall: (first => { this.showBackTop[1] = first > 2 })
@@ -429,6 +431,7 @@ export struct Home {
 
       TabContent() {
         CommodityList({
+          categoryCode: '03',
           scrollController: this.waterFlowScrollerList[2],
           itemWidth: this.goodsItemWidth,
           onScrollIndexCall: (first => { this.showBackTop[2] = first > 2 })
@@ -437,6 +440,7 @@ export struct Home {
 
       TabContent() {
         CommodityList({
+          categoryCode: '04',
           scrollController: this.waterFlowScrollerList[3],
           itemWidth: this.goodsItemWidth,
           onScrollIndexCall: (first => { this.showBackTop[3] = first > 2 })

@@ -1,6 +1,6 @@
 import { StyleConstants } from '@ohos/common'
 import { Home } from "./home/home"
-import { Category } from "./category"
+import { Category } from "./category/category"
 
 @Entry
 @Component
