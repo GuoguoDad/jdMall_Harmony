@@ -1,8 +1,18 @@
 # 前言
 
- 高仿京东商城harmony版本，个人学习harmony项目
+ 高仿某东商城harmony版本，个人学习harmony项目
 
 1. 目前只实现了首页...
+
+# 开发环境
+DevEco Studio 6.0.2 Release  
+HarmonyOS 6.0.2  
+mock_server nodejs: v18.20.6
+
+# 启动mock_server
+1. cd mock_server
+2. 执行 npm i 安装依赖
+3. npm run mock
 
 # 效果
 
