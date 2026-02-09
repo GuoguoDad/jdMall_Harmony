@@ -1,0 +1,93 @@
+{
+  "code": "0",
+  "msg": "",
+  "data": {
+    "bannerList": [
+      {
+        "colorId": "color1",
+        "colorName": "黑灰色/红色",
+        "thumb": "https://ik.imagekit.io/guoguodad/mall/detail/f5c28554c39fee6d.jpg",
+        "imgList": [
+          "https://ik.imagekit.io/guoguodad/mall/detail/f5c28554c39fee6d.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/8dff30acead53213.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/1c8f4ba0ccf38c9e.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/44bdb9081eaec2be.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/8ca83cf7694ebd07.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/e71af88949e071ed.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/4de912b7b8ae3bfe.jpg"
+        ]
+      },
+      {
+        "colorId": "color2",
+        "colorName": "蓝色/黄色",
+        "thumb": "https://ik.imagekit.io/guoguodad/mall/detail/0e30192ad676f8a8.jpg",
+        "imgList": [
+          "https://ik.imagekit.io/guoguodad/mall/detail/0e30192ad676f8a8.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/a1a9fae9bed57523.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/b9d2b41d33493999.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/4cac5b0ea0c5a0da.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/a93e6f167964bcfb.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/11e72ba025a0da3c.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/e4ad2acca9283634.jpg"
+        ]
+      }
+    ],
+    "goodsInfo": {
+      "originalPrice": "890.00",
+      "specialPrice": "810",
+      "tagList": [
+        "买满300减40",
+        "满199减20",
+        "满49减1"
+      ],
+      "goodsName": "ASICS亚瑟士 2022春夏男鞋稳定支持经典跑鞋舒适回弹运动鞋 GT-2000 10 蓝色/黄色",
+      "appraiseList": [
+        {
+          "headerUrl": "https://ik.imagekit.io/guoguodad/mall/WechatIMG17.jpeg",
+          "userName": "大**行",
+          "content": "外观颜值:外形很好看 别具一格再增加点颜色选择就更好了",
+          "type": 1,
+          "color": "蓝色/黄色",
+          "size": "44",
+          "imgList": [
+            "https://ik.imagekit.io/guoguodad/mall/iShot2022-04-22_11.00.41.png"
+          ]
+        },
+        {
+          "headerUrl": "https://ik.imagekit.io/guoguodad/mall/header.jpg",
+          "userName": "梦**仙",
+          "content": "第一次买亚瑟士的跑鞋，可以说很惊喜了，穿着很舒服，回弹也很到位，跑鞋非常专业！",
+          "type": 1,
+          "color": "黑灰色/红色",
+          "size": "42",
+          "imgList": [
+            "https://ik.imagekit.io/guoguodad/mall/iShot2022-04-22_11.01.00.png",
+            "https://ik.imagekit.io/guoguodad/mall/iShot2022-04-22_11.01.00.png"
+          ]
+        }
+      ]
+    },
+    "detailInfo": {
+      "hdzq": "https://ik.imagekit.io/guoguodad/mall/detail/fdf3b1d52374f37d.jpg",
+      "dnyx": "https://ik.imagekit.io/guoguodad/mall/detail/b2b9db04abe679f9.jpg",
+      "introductionList": [
+        "https://ik.imagekit.io/guoguodad/mall/detail/b8bfe5686b57e194.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/a5f6f70467c6b0a6.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/bec3690c3ea0ed3a.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/e6377e50fa1e1b2f.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/9eb4e5c1dced910f.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/47fa0c49693dcc71.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/4e6006511b0cc5d6.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/404b26a0d0a18103.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/afd9b75c4ff05764.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/c8cf40cac78e0532.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/1e52c37e4d539d0b.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/e0dc610050c48363.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/acc39177f635cb84.jpg"
+      ],
+      "serviceList": [
+        "https://ik.imagekit.io/guoguodad/mall/detail/283084254c9e270a.jpg"
+      ]
+    }
+  }
+}

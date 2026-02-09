@@ -1,0 +1,41 @@
+{
+  "code": "0",
+  "msg": "",
+  "data": [
+    {
+      "storeName": "ASICS 旗舰店",
+      "storeCode": "s01",
+      "h5url": "https://shop.m.jd.com/shop/home?shopId=17529",
+      "goodsList": [
+        {
+          "code": "s01g01",
+          "imgUrl": "https://ik.imagekit.io/guoguodad/mall/cart/s01g01.jpg?updatedAt=1691722797705",
+          "description": "ASICS 亚瑟士 休闲鞋运动鞋舒适透气",
+          "price": "890.00",
+          "num": 1
+        },
+        {
+          "code": "s01g02",
+          "imgUrl": "https://ik.imagekit.io/guoguodad/mall/cart/s01g02.jpeg?updatedAt=1691722798312",
+          "description": "ASICS 亚瑟士 男鞋运动鞋 GEL-VENTURE 7 MX 抓地缓冲越野跑鞋 黑色",
+          "price": "590.00",
+          "num": 1
+        }
+      ]
+    },
+    {
+      "storeName": "SALOMON 官方旗舰店",
+      "storeCode": "s02",
+      "h5url": "https://shop.m.jd.com/shop/home?shopId=133306",
+      "goodsList": [
+        {
+          "code": "s02g01",
+          "imgUrl": "https://ik.imagekit.io/guoguodad/mall/cart/s02g01.jpeg?updatedAt=1691722797696",
+          "description": "塞洛蒙（Salomon）男款 户外运动轻便舒适网布透气排水浅滩涉水溯溪鞋 AMPHIB BOLD",
+          "price": "798.00",
+          "num": 2
+        }
+      ]
+    }
+  ]
+}
