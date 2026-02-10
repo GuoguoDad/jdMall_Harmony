@@ -1,5 +1,5 @@
 import { ImageKnifeComponent } from '@ohos/imageknife'
-import { StyleConstants, CommodityList } from '@ohos/common'
+import { RefreshComponent, StyleConstants, CommodityList, FloatingBackTop } from '@ohos/common'
 import { DisplayUtil, LogUtil } from '@pura/harmony-utils'
 import { window } from '@kit.ArkUI'
 import { BannerInfo, GridDataSource, MenuInfo, SwiperDataSource } from './source'
@@ -211,18 +211,7 @@ export struct Home {
 
   @Builder
   refreshComponent() {
-    Stack() {
-      Column() {
-        LoadingProgress().height(32)
-        Text(this.promptText).fontSize(StyleConstants.FONT_SIZE_TWELVE).margin({ top: 2 }).fontColor(Color.Grey)
-      }
-      .alignItems(HorizontalAlign.Center)
-    }
-    .align(Alignment.Center)
-    .clip(true)
-    .padding({top: this.safeTop, bottom: 5})
-    .constraintSize({ minHeight: 54 + this.safeTop })
-    .width(StyleConstants.FULL_WIDTH)
+    RefreshComponent({promptText: this.promptText, progressOffsetTop: this.safeTop})
   }
 
   @Builder
@@ -282,7 +271,9 @@ export struct Home {
             ImageKnifeComponent({
               imageKnifeOption: {
                 loadSrc: item.imgUrl,
-                objectFit: ImageFit.Cover
+                placeholderSrc: $r('app.media.default'),
+                errorholderSrc: $r('app.media.default'),
+                objectFit: ImageFit.Fill
               }
             }).width(StyleConstants.FULL_WIDTH).height(150)
           }, (item: string) => item)
@@ -321,6 +312,8 @@ export struct Home {
     ImageKnifeComponent({
       imageKnifeOption: {
         loadSrc: 'https://ik.imagekit.io/guoguodad/mall/home/ad_img.png?updatedAt=1691716521394',
+        placeholderSrc: $r('app.media.default'),
+        errorholderSrc: $r('app.media.default'),
         objectFit: ImageFit.Fill
       }
     }).width(StyleConstants.FULL_WIDTH).height(78).backgroundColor(Color.White)
@@ -455,23 +448,15 @@ export struct Home {
 
   @Builder
   BackTop() {
-    Button() {
-      Image($r('app.media.ic_back_top'))
-        .width(24)
-        .height(24)
-    }
-    .width(50)
-    .height(50)
-    .borderRadius(25)
-    .backgroundColor(Color.White)
-    .shadow({ radius: 8, color: Color.Gray, offsetX: 2, offsetY: 2 })
-    .position({ x: '85%', y: '90%' })
-    .visibility(this.showBackTop[this.tabsCurrentIndex] ? Visibility.Visible : Visibility.None)
-    .onClick(()=> {
-      this.waterFlowScrollerList.forEach((_, index) => {
-        this.waterFlowScrollerList[index].scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 200, curve: Curve.Friction }})
+    FloatingBackTop({
+      location: ({ x: '85%', y: '90%' }),
+      display: (this.showBackTop[this.tabsCurrentIndex] ? Visibility.Visible : Visibility.None),
+      onClickFun: (()=> {
+        this.waterFlowScrollerList.forEach((_, index) => {
+          this.waterFlowScrollerList[index].scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 200, curve: Curve.Friction }})
+        })
+        this.scrollScroller.scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 400, curve: Curve.Friction }})
       })
-      this.scrollScroller.scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 400, curve: Curve.Friction }})
     })
   }
 

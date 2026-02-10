@@ -4,6 +4,7 @@ import { StyleConstants } from '../../../../Index'
 import { queryGoodsListByPage } from '../service/common'
 import { WaterFlowDataSource } from '../utils/WaterFlowDataSource'
 import { CommodityInfo } from '../viewmodel/CommodityModel'
+import { LoadMoreFooter } from './LoadMoreFooter'
 
 @Component
 export struct CommodityList {
@@ -14,8 +15,8 @@ export struct CommodityList {
   @State isLoading: boolean = true
   @State hasNext: boolean = true
 
-  private scrollController!: Scroller
-  private onScrollIndexCall!: (first: number) => void
+  scrollController!: Scroller
+  onScrollIndexCall!: (first: number) => void
 
   private dataSource = new WaterFlowDataSource<CommodityInfo>([])
 
@@ -30,7 +31,7 @@ export struct CommodityList {
   }
 
   build() {
-    WaterFlow({scroller: this.scrollController, footer: this.itemFoot()}) {
+    WaterFlow({scroller: this.scrollController, footer: this.footer()}) {
       LazyForEach(this.dataSource, (item: CommodityInfo) => {
         FlowItem() {
          this.GoodsItem(item)
@@ -59,22 +60,8 @@ export struct CommodityList {
   }
 
   @Builder
-  itemFoot() {
-    Column() {
-      if (this.isLoading) {
-        Text(`加载中...`)
-          .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
-          .fontColor(Color.Grey)
-      } else if (!this.isLoading && !this.hasNext) {
-        Text(`到底啦...`)
-          .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
-          .fontColor(Color.Grey)
-      }
-    }
-    .height(58)
-    .width(StyleConstants.FULL_WIDTH)
-    .alignItems(HorizontalAlign.Center)
-    .justifyContent(FlexAlign.Center)
+  footer() {
+    LoadMoreFooter({isLoading: this.isLoading, hasNextPage: this.hasNext})
   }
 
   @Builder
