@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from '@ohos/axios'
-import { LogUtil, ToastUtil } from '@pura/harmony-utils'
+import { AppUtil, LogUtil, ToastUtil } from '@pura/harmony-utils'
 import { BaseResponse } from './types'
 
 const instance = axios.create({
@@ -31,12 +31,14 @@ instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 
 instance.interceptors.response.use((response: AxiosResponse) => {
 
-  LogUtil.info([
-    `--------- [axios] req url: ${response.config.url}`,
-    `--------- [axios] req method: ${response.config.method}`,
-    `--------- [axios] req data:${response.config.data}`,
-    `--------- [axios] res data:`, response.data
-  ])
+  if (AppUtil.getAppProvisionType() == "debug" || AppUtil.debug()) {
+    LogUtil.info([
+      `--------- [axios] req url: ${response.config.url}`,
+      `--------- [axios] req method: ${response.config.method}`,
+      `--------- [axios] req data:${response.config.data}`,
+      `--------- [axios] res data:`, response.data
+    ])
+  }
 
   // 业务成功处理
   if (isSuccess(response.data.code)) {
@@ -83,7 +85,7 @@ function handleNetworkError(code: string): void {
   };
 
   const message = errorMap[code] || `网络错误: ${code}`
-  LogUtil.error('[axios] network error:',message)
+  LogUtil.error('--------- [axios] network error:',message)
 }
 
 function handleHttpError(status: number): void {
@@ -99,7 +101,7 @@ function handleHttpError(status: number): void {
   };
 
   const message = errorMap[status] || `HTTP错误: ${status}`;
-  LogUtil.error('[axios] http error:',message)
+  LogUtil.error('--------- [axios] http error:',message)
 
   if (status === 401) {
     // 跳转到登录页
