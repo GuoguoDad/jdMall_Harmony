@@ -2,7 +2,7 @@ import { ImageKnifeComponent } from '@ohos/imageknife'
 import { LogUtil } from '@pura/harmony-utils'
 import { StyleConstants } from '../../../../Index'
 import { queryGoodsListByPage } from '../service/common'
-import { WaterFlowDataSource } from '../utils/WaterFlowDataSource'
+import { DataSource } from '../utils/DataSource'
 import { CommodityInfo } from '../viewmodel/CommodityModel'
 import { LoadMoreFooter } from './LoadMoreFooter'
 
@@ -18,7 +18,7 @@ export struct CommodityList {
   scrollController!: Scroller
   onScrollIndexCall!: (first: number) => void
 
-  private dataSource = new WaterFlowDataSource<CommodityInfo>([])
+  private dataSource = new DataSource<CommodityInfo>([])
 
   constructor(scrollController: Scroller, onScrollIndexCall: (first: number) => void) {
     super()

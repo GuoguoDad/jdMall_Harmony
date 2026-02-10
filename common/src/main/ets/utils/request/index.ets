@@ -113,19 +113,19 @@ function isSuccess(code: string | number): boolean {
 }
 
 class RequestUtil {
-  static get<T>(url: string, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+  static get<T = ESObject>(url: string, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
     return instance.get<T, BaseResponse<T>>(url, config).then((res) => res);
   }
 
-  static post<T>(url: string, data?: ESObject, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+  static post<T = ESObject>(url: string, data?: ESObject, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
     return instance.post<T, BaseResponse<T>>(url, data, config).then(res => res);
   }
 
-  static put<T>(url: string, data?: ESObject, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+  static put<T = ESObject>(url: string, data?: ESObject, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
     return instance.put<T, BaseResponse<T>>(url, data, config).then(res => res);
   }
 
-  static delete<T>(url: string, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
+  static delete<T = ESObject>(url: string, config?: AxiosRequestConfig): Promise<BaseResponse<T>> {
     return instance.delete<T, BaseResponse<T>>(url, config).then(res => res)
   }
 }

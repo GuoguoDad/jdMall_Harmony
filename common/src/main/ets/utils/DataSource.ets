@@ -1,6 +1,4 @@
-import { LogUtil } from "@pura/harmony-utils";
-
-export class WaterFlowDataSource<T> implements IDataSource {
+export class DataSource<T> implements IDataSource {
   private dataArray: T[] = [];
   private listeners: DataChangeListener[] = [];
 
