@@ -1,7 +1,6 @@
 import { ImageKnifeComponent } from '@ohos/imageknife'
-import { RefreshComponent, StyleConstants, CommodityList, FloatingBackTop } from '@ohos/common'
-import { DisplayUtil, LogUtil } from '@pura/harmony-utils'
-import { window } from '@kit.ArkUI'
+import { RefreshComponent, getRefreshStatusText, StyleConstants, CommodityList, FloatingBackTop } from '@ohos/common'
+import { DisplayUtil, WindowUtil } from '@pura/harmony-utils'
 import { BannerInfo, GridDataSource, MenuInfo, SwiperDataSource } from './source'
 
 @Component
@@ -20,7 +19,6 @@ export struct Home {
 
   private tabsController = new TabsController()
   private scrollScroller: Scroller = new Scroller()
-  private windowClass = AppStorage.get<window.Window>('windowClass') as window.Window
 
   private waterFlowScrollerList: Scroller[] = [new Scroller(), new Scroller(), new Scroller(), new Scroller()]
 
@@ -181,25 +179,9 @@ export struct Home {
     }
     .pullToRefresh(true)
     .refreshOffset(96)
-    .onStateChange((refreshStatus: RefreshStatus) => {
-      switch (refreshStatus) {
-        case RefreshStatus.Drag:
-          this.promptText = '下拉刷新'
-          break
-        case RefreshStatus.OverDrag:
-          this.promptText = '松开立即刷新...'
-          break
-        case RefreshStatus.Refresh:
-          this.promptText = '正在刷新'
-          break
-      }
-    })
+    .onStateChange((refreshStatus: RefreshStatus) => {this.promptText = getRefreshStatusText(refreshStatus)})
     .onOffsetChange(offset => {
-      if(offset > this.safeTop) {
-        this.windowClass.setWindowSystemBarProperties({ statusBarContentColor: '#000000' })
-      } else {
-        this.windowClass.setWindowSystemBarProperties({ statusBarContentColor: '#FFFFFF' })
-      }
+      WindowUtil.setWindowSystemBarProperties({statusBarContentColor: offset > this.safeTop ? '#000000':'#FFFFFF'})
     })
     .onRefreshing(() => {
       setTimeout(() => {
@@ -445,7 +427,6 @@ export struct Home {
     .height(StyleConstants.FULL_HEIGHT)
   }
 
-
   @Builder
   BackTop() {
     FloatingBackTop({
@@ -458,15 +439,6 @@ export struct Home {
         this.scrollScroller.scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 400, curve: Curve.Friction }})
       })
     })
-  }
-
-  @Styles
-  listCard() {
-    .backgroundColor(Color.White)
-    .height(72)
-    .width("100%")
-    .margin({top: 5, bottom: 5})
-    .borderRadius(12)
   }
 }
 

@@ -1,6 +1,5 @@
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
-import { BusinessError } from '@kit.BasicServicesKit';
 import { window } from '@kit.ArkUI';
 import { AppUtil } from '@pura/harmony-utils'
 import { DialogHelper, Orientation } from '@pura/harmony-dialog';
@@ -34,7 +33,6 @@ export default class EntryAbility extends UIAbility {
     // 获取底部导航条高度
     const bottomArea = win.getWindowAvoidArea(window.AvoidAreaType.TYPE_NAVIGATION_INDICATOR);
     AppStorage.setOrCreate('safeBottom', px2vp(bottomArea.bottomRect.height));
-    AppStorage.setOrCreate('windowClass', win)
 
     windowStage.loadContent('pages/Index', (err) => {
       if (err.code) {
