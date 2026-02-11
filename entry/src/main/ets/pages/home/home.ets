@@ -119,7 +119,7 @@ export struct Home {
     }
     .width(StyleConstants.FULL_WIDTH)
     .height(this.searchHeaderHeight + this.safeTop)
-    .backgroundColor('#EA3931')
+    .backgroundColor($r('app.color.common_header_bg'))
     .position({x: 0, y: 0})
     .zIndex(1)
   }

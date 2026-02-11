@@ -27,6 +27,7 @@
     "@security/no-unsafe-rsa-key": "error",
     "@security/no-unsafe-dsa-key": "error",
     "@security/no-unsafe-dh-key": "error",
-    "@security/no-unsafe-3des": "error"
+    "@security/no-unsafe-3des": "error",
+    "@typescript-eslint/semi": "off"
   }
 }

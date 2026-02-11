@@ -27,6 +27,10 @@
     {
       "name": "status_bar_text_white",
       "value": "#FFFFFF"
+    },
+    {
+      "name": "common_header_bg",
+      "value": "#EA3931"
     }
   ]
 }

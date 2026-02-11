@@ -5,7 +5,7 @@ import { Category } from "./category/category"
 @Entry
 @Component
 struct Index {
-  @State currentIndex: number = 0
+  @State currentIndex: number = 1
   private controller = new TabsController()
 
   @StorageProp('safeTop') safeTop: number = 0
@@ -33,7 +33,7 @@ struct Index {
 
   build() {
     Column() {
-      Tabs({barPosition:BarPosition.End, controller:this.controller, index:0}){
+      Tabs({barPosition:BarPosition.End, controller:this.controller, index: 1}){
         TabContent(){
           Home()
         }.tabBar(this.TabBuilder('首页', 0, $r("app.media.ic_home"), $r("app.media.ic_home_active")))
