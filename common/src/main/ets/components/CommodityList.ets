@@ -15,8 +15,8 @@ export struct CommodityList {
   @State isLoading: boolean = true
   @State hasNext: boolean = true
 
-  scrollController!: Scroller
-  onScrollIndexCall!: (first: number) => void
+  scrollController?: Scroller
+  onScrollIndexCall?: (first: number) => void
 
   private dataSource = new DataSource<CommodityInfo>([])
 

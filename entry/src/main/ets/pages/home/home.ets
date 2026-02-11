@@ -1,6 +1,6 @@
 import { ImageKnifeComponent } from '@ohos/imageknife'
 import { RefreshComponent, getRefreshStatusText, StyleConstants, CommodityList, FloatingBackTop, DataSource } from '@ohos/common'
-import { DisplayUtil, WindowUtil } from '@pura/harmony-utils'
+import { DisplayUtil, LogUtil, WindowUtil } from '@pura/harmony-utils'
 import { queryHomePageInfo, TabInfo, BannerInfo, NineMenuInfo } from '../../service/home'
 
 @Component
@@ -11,10 +11,9 @@ export struct Home {
   @State promptText: string = "下拉刷新"
 
   @State adUrl: string = ''
-
   @State tabsCurrentIndex: number = 0
   @State tabList: TabInfo[] = []
-  @State showBackTop: boolean[] = [false, false, false, false]
+  @State showBackTop: boolean[] = []
 
   @StorageProp('safeTop') safeTop: number = 0
   @StorageProp('safeBottom') safeBottom: number = 0
@@ -22,7 +21,7 @@ export struct Home {
   private tabsController = new TabsController()
   private scrollScroller: Scroller = new Scroller()
 
-  private waterFlowScrollerList: Scroller[] = [new Scroller(), new Scroller(), new Scroller(), new Scroller()]
+  private waterFlowScrollerList: Scroller[] = [new Scroller(),new Scroller(),new Scroller(),new Scroller(),new Scroller()]
 
   private swiperData = new DataSource<BannerInfo>([])
   private nineMenuList = new DataSource<NineMenuInfo>([])
@@ -270,41 +269,16 @@ export struct Home {
   @Builder
   TabsContentList() {
     Tabs({ barPosition: BarPosition.Start, controller: this.tabsController }) {
-      TabContent() {
-        CommodityList({
-          categoryCode: '01',
-          scrollController: this.waterFlowScrollerList[0],
-          itemWidth: this.goodsItemWidth,
-          onScrollIndexCall: (first => { this.showBackTop[0] = first > 2 })
-        })
-      }.tabBar(this.TabBarBuilder("精选", 0))
-
-      TabContent() {
-        CommodityList({
-          categoryCode: '02',
-          scrollController: this.waterFlowScrollerList[1],
-          itemWidth: this.goodsItemWidth,
-          onScrollIndexCall: (first => { this.showBackTop[1] = first > 2 })
-        })
-      }.tabBar(this.TabBarBuilder("新品", 1))
-
-      TabContent() {
-        CommodityList({
-          categoryCode: '03',
-          scrollController: this.waterFlowScrollerList[2],
-          itemWidth: this.goodsItemWidth,
-          onScrollIndexCall: (first => { this.showBackTop[2] = first > 2 })
-        })
-      }.tabBar(this.TabBarBuilder("实惠", 2))
-
-      TabContent() {
-        CommodityList({
-          categoryCode: '04',
-          scrollController: this.waterFlowScrollerList[3],
-          itemWidth: this.goodsItemWidth,
-          onScrollIndexCall: (first => { this.showBackTop[3] = first > 2 })
-        })
-      }.tabBar(this.TabBarBuilder("进口", 3))
+      ForEach(this.tabList, (item: TabInfo, index: number) => {
+        TabContent() {
+          CommodityList({
+            categoryCode: item.code,
+            scrollController: this.waterFlowScrollerList[index],
+            itemWidth: this.goodsItemWidth,
+            onScrollIndexCall: (first => { this.showBackTop[index] = first > 2 })
+          })
+        }.tabBar(this.TabBarBuilder(item.name, index))
+      })
     }
     .barHeight(50)
     .vertical(false)
@@ -316,9 +290,13 @@ export struct Home {
     FloatingBackTop({
       location: ({ x: '85%', y: '90%' }),
       display: (this.showBackTop[this.tabsCurrentIndex] ? Visibility.Visible : Visibility.None),
-      onClickFun: (()=> {
-        this.waterFlowScrollerList.forEach((_, index) => {
-          this.waterFlowScrollerList[index].scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 200, curve: Curve.Friction }})
+      onClickFun: (() => {
+        LogUtil.info([
+          'waterFlowScrollerList',
+          this.waterFlowScrollerList
+        ])
+        this.waterFlowScrollerList.forEach(scroller => {
+          scroller.scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 200, curve: Curve.Friction }})
         })
         this.scrollScroller.scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 400, curve: Curve.Friction }})
       })
@@ -331,6 +309,11 @@ export struct Home {
       this.swiperData.setData(info.bannerList || [])
       this.nineMenuList.setData(info.nineMenuList?.filter((_, index)=> index < 10))
       this.nineMenuList2.setData(info.nineMenuList?.filter((_, index)=> index >= 10))
+
+      const tabLen = (info.tabList || []).length
+      this.showBackTop = new Array(tabLen).fill(false)
+      // this.waterFlowScrollerList = new Array(tabLen).fill(new Scroller())
+      this.tabList = info.tabList || []
     })
   }
 }
