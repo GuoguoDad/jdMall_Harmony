@@ -2,7 +2,7 @@
 
  高仿某东商城harmony版本，个人学习harmony项目
 
-1. 目前只实现了首页...
+1. 目前只实现了首页、分类页
 
 # 开发环境
 DevEco Studio 6.0.2 Release  
@@ -19,6 +19,10 @@ mock_server nodejs: v18.20.6
 ## 首页
 
 <img src="images/home.gif" title="" alt="image" width="300">
+
+## 分类
+
+<img src="images/category.gif" title="" alt="image" width="300">
 
 
 # 第三方框架
