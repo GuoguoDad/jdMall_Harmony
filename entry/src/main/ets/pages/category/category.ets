@@ -1,9 +1,12 @@
 import { StyleConstants } from "@ohos/common"
 import { ImageKnifeComponent } from "@ohos/imageknife"
 import { AppUtil } from "@pura/harmony-utils"
-import { CategoryInfo, queryCategoryList,
+import {
+  CategoryInfo,
+  queryCategoryList,
   queryGroupCategoryList,
-  SecondCategoryInfo, ThirdCategoryInfo } from "../../service/category"
+  SecondCategoryInfo, ThirdCategoryInfo
+} from "../../service/category"
 
 @Component
 export struct Category {
