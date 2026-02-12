@@ -1,8 +1,9 @@
 # 前言
-
  高仿某东商城harmony版本，个人学习harmony项目
 
-1. 目前只实现了首页、分类页
+1. 网络使用dio进行封装
+2. 使用node项目mock服务端接口(mock_server目录)
+3. 目前实现了首页、分类...
 
 # 开发环境
 DevEco Studio 6.0.2 Release  
@@ -33,6 +34,7 @@ mock_server nodejs: v18.20.6
 | **@pura/harmony-dialog** | **dialog** |
 | **@pura/harmony-utils**  | **工具库**    |
 | **@ohos/imageknife**     | **图片显示**   |
+| **@pura/harmony-dialog** | **弹窗组件**   |
 
 # 声明
 
