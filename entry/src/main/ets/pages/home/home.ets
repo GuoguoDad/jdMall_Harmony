@@ -197,6 +197,8 @@ export struct Home {
               ImageKnifeComponent({
                 imageKnifeOption: {
                   loadSrc: item.menuIcon,
+                  placeholderSrc: $r('app.media.default'),
+                  errorholderSrc: $r('app.media.default'),
                   objectFit: ImageFit.Fill
                 }
               }).width(40).height(40)
@@ -219,6 +221,8 @@ export struct Home {
               ImageKnifeComponent({
                 imageKnifeOption: {
                   loadSrc: item.menuIcon,
+                  placeholderSrc: $r('app.media.default'),
+                  errorholderSrc: $r('app.media.default'),
                   objectFit: ImageFit.Fill
                 }
               }).width(40).height(40)
