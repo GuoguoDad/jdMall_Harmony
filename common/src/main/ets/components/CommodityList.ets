@@ -1,9 +1,8 @@
 import { ImageKnifeComponent } from '@ohos/imageknife'
 import { LogUtil } from '@pura/harmony-utils'
 import { StyleConstants } from '../../../../Index'
-import { queryGoodsListByPage } from '../service/common'
+import { CommodityInfo, queryGoodsListByPage } from '../service/common'
 import { DataSource } from '../utils/DataSource'
-import { CommodityInfo } from '../viewmodel/CommodityModel'
 import { LoadMoreFooter } from './LoadMoreFooter'
 
 @Component

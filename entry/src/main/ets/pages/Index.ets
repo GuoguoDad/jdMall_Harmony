@@ -7,7 +7,7 @@ import { WindowUtil } from '@pura/harmony-utils'
 @Entry
 @Component
 struct Index {
-  @State currentIndex: number = 2
+  @State currentIndex: number = 0
   private controller = new TabsController()
 
   @StorageProp('safeTop') safeTop: number = 0

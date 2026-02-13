@@ -2,7 +2,6 @@ import { LogUtil, ToastUtil } from '@pura/harmony-utils'
 import { EnvConfig } from '../constants/EnvConstants'
 import { sleep } from '../utils'
 import { isSuccess, RequestUtil } from '../utils/request'
-import { CommodityInfo } from '../viewmodel/CommodityModel'
 
 export const queryGoodsListByPage = async(code: string, pageNo: number, pageSize: number) => {
   const res = await RequestUtil.post<GoodsPageInfo>(`${EnvConfig.baseUrl}/common/queryGoodsListByPage`, { code, pageNo, pageSize })
@@ -17,4 +16,16 @@ export interface GoodsPageInfo {
   goodsList: CommodityInfo[]
   totalCount: number
   totalPageCount: number
+}
+
+export interface CommodityInfo{
+  id: string
+  imgUrl: string
+  description?: string
+  tag?: string
+  des1?: string
+  des2?: string
+  type: string
+  price?: string
+  h5url?: string
 }
