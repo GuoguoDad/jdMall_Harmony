@@ -17,17 +17,9 @@ mock_server nodejs: v18.20.6
 
 # 效果
 
-## 首页
-
-<img src="images/home.gif" title="" alt="image" width="300">
-
-## 分类
-
-<img src="images/category.gif" title="" alt="image" width="300">
-
-## 购物车
-
-<img src="images/cart.gif" title="" alt="image" width="300">
+| 首页                                                          | 分类                                                            | 购物车                                                         |
+|--------------------------------------------------------------|-----------------------------------------------------------------|--------------------------------------------------------------|
+| <img src="images/home.gif" title="" alt="image" width="300"> | <img src="images/category.gif" title="" alt="image" width="300"> | <img src="images/cart.gif" title="" alt="image" width="300"> | 
 
 
 # 第三方框架

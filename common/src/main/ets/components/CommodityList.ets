@@ -130,7 +130,7 @@ export struct CommodityList {
       } else {
         this.dataSource.addNewItems(pageInfo.goodsList || [])
       }
-      LogUtil.info(["queryGoodsListByPage hasNext:", pageNo, pageNo < pageInfo.totalPageCount])
+      // LogUtil.info(["queryGoodsListByPage hasNext:", pageNo, pageNo < pageInfo.totalPageCount])
       this.hasNext = pageNo < pageInfo.totalPageCount
       this.currentPage = pageNo
     })
