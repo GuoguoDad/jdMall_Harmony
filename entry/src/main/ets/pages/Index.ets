@@ -1,20 +1,22 @@
 import { StyleConstants } from '@ohos/common'
 import { Home } from "./home/home"
 import { Category } from "./category/category"
+import { Cart } from "./cart/cart"
+import { WindowUtil } from '@pura/harmony-utils'
 
 @Entry
 @Component
 struct Index {
-  @State currentIndex: number = 1
+  @State currentIndex: number = 2
   private controller = new TabsController()
 
   @StorageProp('safeTop') safeTop: number = 0
   @StorageProp('safeBottom') safeBottom: number = 0
 
   @Builder
-  TabBuilder(title:string, targetIndex:number, normalImg:Resource, selectedImg:Resource){
+  TabBuilder(title: string, targetIndex: number, icon: Resource, selectedIcon: Resource){
     Column(){
-      Image(this.currentIndex == targetIndex ? selectedImg:normalImg)
+      Image(this.currentIndex == targetIndex ? selectedIcon : icon)
         .width(28)
         .height(28)
       Text(title)
@@ -41,7 +43,7 @@ struct Index {
           Category()
         }.tabBar(this.TabBuilder('分类', 1, $r("app.media.ic_category"), $r("app.media.ic_category_active")))
         TabContent(){
-          Column().width('100%').height('100%').backgroundColor(Color.Yellow)
+          Cart()
         }.tabBar(this.TabBuilder('购物车', 2, $r("app.media.ic_cart"), $r("app.media.ic_cart_active")))
         TabContent(){
           Column().width('100%').height('100%').backgroundColor(Color.Green)
@@ -50,6 +52,9 @@ struct Index {
       .scrollable(false)
       .barHeight(50 + this.safeBottom)
       .barBackgroundColor(Color.White)
+      .onChange((index: number) => {
+        WindowUtil.setWindowSystemBarProperties({statusBarContentColor: [0, 1].includes(index) ? '#FFFFFF' : '#000000'})
+      })
     }
     .width(StyleConstants.FULL_WIDTH)
     .height(StyleConstants.FULL_HEIGHT)

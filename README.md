@@ -3,7 +3,7 @@
 
 1. 网络使用dio进行封装
 2. 使用node项目mock服务端接口(mock_server目录)
-3. 目前实现了首页、分类...
+3. 目前实现了首页、分类、购物车...
 
 # 开发环境
 DevEco Studio 6.0.2 Release  
@@ -25,13 +25,16 @@ mock_server nodejs: v18.20.6
 
 <img src="images/category.gif" title="" alt="image" width="300">
 
+## 购物车
+
+<img src="images/cart.gif" title="" alt="image" width="300">
+
 
 # 第三方框架
 
 | 库                        | 功能         |
 |--------------------------|------------|
 | **@ohos/axios**          | **网络框架**   |
-| **@pura/harmony-dialog** | **dialog** |
 | **@pura/harmony-utils**  | **工具库**    |
 | **@ohos/imageknife**     | **图片显示**   |
 | **@pura/harmony-dialog** | **弹窗组件**   |

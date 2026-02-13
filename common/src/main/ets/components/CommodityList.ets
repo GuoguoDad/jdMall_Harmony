@@ -42,7 +42,7 @@ export struct CommodityList {
     .columnsTemplate('1fr 1fr')
     .rowsGap(10)
     .columnsGap(10)
-    .padding({left: 5, right: 5})
+    .padding({left: 10, right: 10})
     .width(StyleConstants.FULL_WIDTH)
     .height(StyleConstants.FULL_HEIGHT)
     .nestedScroll({

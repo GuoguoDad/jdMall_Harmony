@@ -33,6 +33,7 @@ export struct Home {
     this.queryInfo()
   }
 
+
   build() {
     Refresh({ refreshing: $$this.isRefreshing, builder: this.refreshComponent() }) {
       Stack() {
@@ -56,6 +57,8 @@ export struct Home {
 
         this.BackTop()
       }
+      .width(StyleConstants.FULL_WIDTH)
+      .height(StyleConstants.FULL_HEIGHT)
     }
     .pullToRefresh(true)
     .refreshOffset(96)
