@@ -33,7 +33,7 @@ struct Index {
 
   build() {
     Column() {
-      Tabs({barPosition:BarPosition.End, controller:this.controller, index: 1}){
+      Tabs({barPosition:BarPosition.End, controller:this.controller, index: this.currentIndex}){
         TabContent(){
           Home()
         }.tabBar(this.TabBuilder('首页', 0, $r("app.media.ic_home"), $r("app.media.ic_home_active")))

@@ -1,12 +1,16 @@
 import { isSuccess, RequestUtil, EnvConfig } from "@ohos/common"
 import { ToastUtil } from '@pura/harmony-utils'
 
-export const queryCategoryList = async() => {
-  const res = await RequestUtil.post<CategoryInfo[]>(`${EnvConfig.baseUrl}/category/list`)
-  if(isSuccess(res.code) && res.msg) {
+export const queryCategoryList = async () => {
+  const res = await RequestUtil.post<LeftCategoryInfo>(`${EnvConfig.baseUrl}/category/list`)
+  if (isSuccess(res.code) && res.msg) {
     ToastUtil.showToast(res.msg)
   }
   return res.data
+}
+
+interface LeftCategoryInfo {
+  categoryList: CategoryInfo[];
 }
 
 export interface CategoryInfo {
@@ -14,9 +18,10 @@ export interface CategoryInfo {
   code: string
 }
 
-export const queryGroupCategoryList = async(code: string) => {
-  const res = await RequestUtil.post<GroupCategoryListInfo>(`${EnvConfig.baseUrl}/category/list`, { code })
-  if(isSuccess(res.code) && res.msg) {
+export const queryGroupCategoryList = async (code: string) => {
+  const res =
+    await RequestUtil.post<GroupCategoryListInfo>(`${EnvConfig.baseUrl}/category/queryContentByCategory`, { code })
+  if (isSuccess(res.code) && res.msg) {
     ToastUtil.showToast(res.msg)
   }
   return res.data

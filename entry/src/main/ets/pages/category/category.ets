@@ -1,6 +1,6 @@
 import { StyleConstants } from "@ohos/common"
 import { ImageKnifeComponent } from "@ohos/imageknife"
-import { AppUtil } from "@pura/harmony-utils"
+import { AppUtil, LogUtil } from "@pura/harmony-utils"
 import {
   CategoryInfo,
   queryCategoryList,
@@ -218,7 +218,7 @@ export struct Category {
 
   queryLeftCategoryList() {
     queryCategoryList().then(res => {
-      const list = res || []
+      const list = res.categoryList || []
       const defaultCategoryCode = list.length ? list[0].code : ''
       this.categoryList = list
       this.selectedCategoryCode = defaultCategoryCode
