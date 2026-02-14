@@ -1,7 +1,7 @@
 import { ImageKnifeComponent } from '@ohos/imageknife'
 import { RefreshComponent, getRefreshStatusText, StyleConstants, CommodityList, FloatingBackTop, DataSource } from '@ohos/common'
 import { DisplayUtil, LogUtil, WindowUtil } from '@pura/harmony-utils'
-import { queryHomePageInfo, TabInfo, BannerInfo, NineMenuInfo } from '../../service/home'
+import { queryHomePageInfo, TabInfo, BannerInfo, NineMenuInfo } from '../../service/homeService'
 
 @Component
 export struct Home {
@@ -258,17 +258,17 @@ export struct Home {
   }
 
   @Builder
-  TabBarBuilder(title:string, targetIndex:number){
+  TabBarBuilder(title:string, index:number){
     Column(){
       Text(title)
         .fontSize(StyleConstants.FONT_SIZE_SIXTEEN)
-        .fontColor(this.tabsCurrentIndex == targetIndex ? $r('app.color.tab_active_color') : $r('app.color.tab_txt_color'))
+        .fontColor(this.tabsCurrentIndex == index ? $r('app.color.tab_active_color') : $r('app.color.tab_txt_color'))
     }
     .justifyContent(FlexAlign.Center)
     .width(StyleConstants.FULL_WIDTH)
     .height(50)
     .onClick(()=>{
-      this.tabsCurrentIndex = targetIndex
+      this.tabsCurrentIndex = index
       this.tabsController.changeIndex(this.tabsCurrentIndex)
     })
   }
@@ -298,10 +298,10 @@ export struct Home {
       location: ({ x: '85%', y: '90%' }),
       display: (this.showBackTop[this.tabsCurrentIndex] ? Visibility.Visible : Visibility.None),
       onClickFun: (() => {
-        LogUtil.info([
-          'waterFlowScrollerList',
-          this.waterFlowScrollerList
-        ])
+        // LogUtil.info([
+        //   'waterFlowScrollerList',
+        //   this.waterFlowScrollerList
+        // ])
         this.waterFlowScrollerList.forEach(scroller => {
           scroller.scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 200, curve: Curve.Friction }})
         })

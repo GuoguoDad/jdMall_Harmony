@@ -1,8 +1,9 @@
 import { StyleConstants } from '@ohos/common'
-import { Home } from "./home/home"
-import { Category } from "./category/category"
-import { Cart } from "./cart/cart"
 import { WindowUtil } from '@pura/harmony-utils'
+import { Home } from './home/home'
+import { Category } from './category/category'
+import { Cart } from './cart/cart'
+import { Mine } from './mine/mine'
 
 @Entry
 @Component
@@ -38,16 +39,16 @@ struct Index {
       Tabs({barPosition:BarPosition.End, controller:this.controller, index: this.currentIndex}){
         TabContent(){
           Home()
-        }.tabBar(this.TabBuilder('首页', 0, $r("app.media.ic_home"), $r("app.media.ic_home_active")))
+        }.tabBar(this.TabBuilder('首页', 0, $r('app.media.ic_home'), $r('app.media.ic_home_active')))
         TabContent(){
           Category()
-        }.tabBar(this.TabBuilder('分类', 1, $r("app.media.ic_category"), $r("app.media.ic_category_active")))
+        }.tabBar(this.TabBuilder('分类', 1, $r('app.media.ic_category'), $r('app.media.ic_category_active')))
         TabContent(){
           Cart()
-        }.tabBar(this.TabBuilder('购物车', 2, $r("app.media.ic_cart"), $r("app.media.ic_cart_active")))
+        }.tabBar(this.TabBuilder('购物车', 2, $r('app.media.ic_cart'), $r('app.media.ic_cart_active')))
         TabContent(){
-          Column().width('100%').height('100%').backgroundColor(Color.Green)
-        }.tabBar(this.TabBuilder('我的', 3, $r("app.media.ic_mine"), $r("app.media.ic_mine_active")))
+          Mine()
+        }.tabBar(this.TabBuilder('我的', 3, $r('app.media.ic_mine'), $r('app.media.ic_mine_active')))
       }
       .scrollable(false)
       .barHeight(50 + this.safeBottom)

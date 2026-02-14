@@ -1,7 +1,7 @@
 import { CommodityList, FloatingBackTop, StepperComponent, StyleConstants } from "@ohos/common"
 import { ImageKnifeComponent } from '@ohos/imageknife'
 import { AppUtil, DisplayUtil, WindowUtil } from "@pura/harmony-utils"
-import { GoodsInfo, queryCartGoodsList, StoreGoodsInfo } from '../../service/cart'
+import { GoodsInfo, queryCartGoodsList, StoreGoodsInfo } from '../../service/cartService'
 
 @Component
 export struct Cart {

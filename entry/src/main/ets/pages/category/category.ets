@@ -6,7 +6,7 @@ import {
   queryCategoryList,
   queryGroupCategoryList,
   SecondCategoryInfo, ThirdCategoryInfo
-} from "../../service/category"
+} from "../../service/categoryService"
 
 @Component
 export struct Category {
