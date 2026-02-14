@@ -1,15 +1,19 @@
 import { CommodityList, DataSource, FloatingBackTop, StyleConstants } from '@ohos/common'
 import { ImageKnifeComponent } from '@ohos/imageknife'
-import { AppUtil, DisplayUtil, LogUtil } from '@pura/harmony-utils'
+import { DisplayUtil, LogUtil, ClickUtil } from '@pura/harmony-utils'
 import { FunctionInfo, queryMinePageInfo, TabInfo } from '../../service/mineService'
 
 @Component
 export struct Mine {
+  @StorageProp('safeTop') safeTop: number = 0
+
   @State showFixedHeader: boolean = false
   @State fixedHeaderOpacity: number = 0
   @State showBackTop: boolean[] = []
   @State tabsCurrentIndex: number = 0
   @State tabList: TabInfo[] = []
+
+  @State tabFloatingOffsetTop:number  = 0
 
   private nineMenuList = new DataSource<FunctionInfo>([])
   private nineMenuList2 = new DataSource<FunctionInfo>([])
@@ -41,6 +45,7 @@ export struct Mine {
       .friction(0.6)
       .backgroundColor('#FAFAFA')
       .scrollBar(BarState.Off)
+      .padding({bottom: this.tabFloatingOffsetTop})
       .width(StyleConstants.FULL_WIDTH)
       .height(StyleConstants.FULL_HEIGHT)
       .onDidScroll(() => {
@@ -53,6 +58,15 @@ export struct Mine {
         } else {
           this.showFixedHeader = false
           this.fixedHeaderOpacity = 0
+        }
+        const totalHeight = 120 + this.safeTop + 132 + 90 - 50 - 10
+        LogUtil.info(['mine scroll', currentOffset, totalHeight])
+        if(currentOffset >= totalHeight) {
+          let diff = currentOffset - totalHeight
+          if(diff >= 40 + this.safeTop) diff = 40 + this.safeTop
+          this.tabFloatingOffsetTop = diff
+        } else {
+          this.tabFloatingOffsetTop = 0
         }
       })
 
@@ -114,8 +128,8 @@ export struct Mine {
     .width(StyleConstants.FULL_WIDTH)
     .backgroundImage($r('app.media.mine_top_bg'))
     .backgroundImageSize(ImageSize.Cover)
-    .height(120 + this.getUIContext().px2vp(AppUtil.getStatusBarHeight()))
-    .padding({top: this.getUIContext().px2vp(AppUtil.getStatusBarHeight())})
+    .height(120 + this.safeTop)
+    .padding({top: this.safeTop})
   }
 
   @Builder
@@ -154,8 +168,8 @@ export struct Mine {
     .backgroundColor(Color.White)
     .visibility(this.showFixedHeader ? Visibility.Visible : Visibility.None)
     .opacity(this.fixedHeaderOpacity)
-    .height(40 + this.getUIContext().px2vp(AppUtil.getStatusBarHeight()))
-    .padding({top: this.getUIContext().px2vp(AppUtil.getStatusBarHeight())})
+    .height(40 + this.safeTop)
+    .padding({top: this.safeTop})
     .position({x: 0, y: 0})
     .zIndex(2)
   }
@@ -382,6 +396,7 @@ export struct Mine {
     .vertical(false)
     .barMode(BarMode.Scrollable)
     .height(StyleConstants.FULL_HEIGHT)
+    .offset({top: this.tabFloatingOffsetTop })
   }
 
   @Builder

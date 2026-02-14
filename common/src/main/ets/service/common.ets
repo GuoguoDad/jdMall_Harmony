@@ -8,7 +8,7 @@ export const queryGoodsListByPage = async(code: string, pageNo: number, pageSize
   if(isSuccess(res.code) && res.msg) {
     ToastUtil.showToast(res.msg)
   }
-  await sleep(pageNo == 1 ? 0 : 2000)
+  await sleep(pageNo == 1 ? 0 : 800)
   return res.data
 }
 
