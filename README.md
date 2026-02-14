@@ -22,9 +22,9 @@ mock_server nodejs: v18.20.6
 | <img src="images/home.gif" width="200"> | <img src="images/category.gif" width="200"> | <img src="images/cart.gif" width="200"> | 
 
 
-| 我的                                     | 商品详情 | 登录 |
-|-----------------------------------------|------|----|
-| <img src="images/mine.gif" width="200"> |      |    | 
+| 我的                                     | 
+|-----------------------------------------|
+| <img src="images/mine.gif" width="200"> | 
 
 
 # 第三方框架
