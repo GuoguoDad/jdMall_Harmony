@@ -387,7 +387,7 @@ export struct Mine {
   @Builder
   BackTop() {
     FloatingBackTop({
-      location: ({ x: '85%', y: '80%' }),
+      location: ({ x: '85%', y: '90%' }),
       display: (this.showBackTop[this.tabsCurrentIndex] ? Visibility.Visible : Visibility.None),
       onClickFun: (() => {
         this.waterFlowScrollerList.forEach(scroller => {
