@@ -1,6 +1,6 @@
 import { CommodityList, DataSource, FloatingBackTop, StyleConstants } from '@ohos/common'
 import { ImageKnifeComponent } from '@ohos/imageknife'
-import { DisplayUtil, LogUtil, ClickUtil } from '@pura/harmony-utils'
+import { DisplayUtil, LogUtil } from '@pura/harmony-utils'
 import { FunctionInfo, queryMinePageInfo, TabInfo } from '../../service/mineService'
 
 @Component
@@ -13,7 +13,7 @@ export struct Mine {
   @State tabsCurrentIndex: number = 0
   @State tabList: TabInfo[] = []
 
-  @State tabFloatingOffsetTop:number  = 0
+  private fixedHeaderHeight: number = 40 + this.safeTop
 
   private nineMenuList = new DataSource<FunctionInfo>([])
   private nineMenuList2 = new DataSource<FunctionInfo>([])
@@ -45,7 +45,7 @@ export struct Mine {
       .friction(0.6)
       .backgroundColor('#FAFAFA')
       .scrollBar(BarState.Off)
-      .padding({bottom: this.tabFloatingOffsetTop})
+      .padding({ bottom: this.fixedHeaderHeight })
       .width(StyleConstants.FULL_WIDTH)
       .height(StyleConstants.FULL_HEIGHT)
       .onDidScroll(() => {
@@ -58,15 +58,6 @@ export struct Mine {
         } else {
           this.showFixedHeader = false
           this.fixedHeaderOpacity = 0
-        }
-        const totalHeight = 120 + this.safeTop + 132 + 90 - 50 - 10
-        LogUtil.info(['mine scroll', currentOffset, totalHeight])
-        if(currentOffset >= totalHeight) {
-          let diff = currentOffset - totalHeight
-          if(diff >= 40 + this.safeTop) diff = 40 + this.safeTop
-          this.tabFloatingOffsetTop = diff
-        } else {
-          this.tabFloatingOffsetTop = 0
         }
       })
 
@@ -156,10 +147,10 @@ export struct Mine {
             .height(26)
             .margin({right: 12})
         }
-        .height(40)
+        .height(StyleConstants.FULL_HEIGHT)
         .alignItems(VerticalAlign.Center)
       }
-      .height(40)
+      .height(StyleConstants.FULL_HEIGHT)
       .width(StyleConstants.FULL_WIDTH)
       .justifyContent(FlexAlign.SpaceBetween)
       .alignItems(VerticalAlign.Center)
@@ -168,7 +159,7 @@ export struct Mine {
     .backgroundColor(Color.White)
     .visibility(this.showFixedHeader ? Visibility.Visible : Visibility.None)
     .opacity(this.fixedHeaderOpacity)
-    .height(40 + this.safeTop)
+    .height(this.fixedHeaderHeight)
     .padding({top: this.safeTop})
     .position({x: 0, y: 0})
     .zIndex(2)
@@ -394,9 +385,11 @@ export struct Mine {
     }
     .barHeight(50)
     .vertical(false)
+    .scrollable(false)
     .barMode(BarMode.Scrollable)
     .height(StyleConstants.FULL_HEIGHT)
-    .offset({top: this.tabFloatingOffsetTop })
+    .margin({top: -(this.fixedHeaderHeight) })
+    .offset({top: this.fixedHeaderHeight })
   }
 
   @Builder

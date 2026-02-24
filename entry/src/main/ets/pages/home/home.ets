@@ -288,6 +288,7 @@ export struct Home {
       })
     }
     .barHeight(50)
+    .scrollable(false)
     .vertical(false)
     .height(StyleConstants.FULL_HEIGHT)
   }
