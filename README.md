@@ -23,10 +23,11 @@ DevEco Studio 6.0.2 Release
 HarmonyOS 6.0.2  
 mock_server nodejs: v18.20.6
 
-# 启动mock_server
+# 关于运行
 1. cd mock_server
-2. 执行 npm i 安装依赖
+2. npm i 安装依赖
 3. npm run mock
+4. 修改 common -> EnvConstants -> EnvConfig -> baseUrl 改为本机ip
 
 # 效果
 
