@@ -10,16 +10,15 @@ import {
 
 @Component
 export struct Category {
-  leftScroller: Scroller = new Scroller()
-  horizontalScroller: Scroller = new Scroller()
-  groupScroller: Scroller = new Scroller()
-
-  private isClick = false
-
   @State selectedCategoryCode:string = ""
   @State categoryList: CategoryInfo[] = []
   @State selectedSecondCategoryCode: string = ''
   @State groupCategoryList: SecondCategoryInfo[] = []
+
+  private leftScroller: Scroller = new Scroller()
+  private horizontalScroller: Scroller = new Scroller()
+  private groupScroller: Scroller = new Scroller()
+  private isClick = false
 
   aboutToAppear() {
     this.queryLeftCategoryList()

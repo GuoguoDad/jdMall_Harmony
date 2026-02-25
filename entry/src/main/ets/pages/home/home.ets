@@ -13,23 +13,30 @@ import { queryHomePageInfo, TabInfo, BannerInfo, NineMenuInfo } from '../../serv
 
 @Component
 export struct Home {
-  @State searchHeaderHeight: number = 80 //min-40, max 80
+  @StorageProp('safeTop') safeTop: number = 0
+  @StorageProp('safeBottom') safeBottom: number = 0
+  //顶部最大高度,不包含safeTop
+  private searchHeaderMaxHeight: number = 90
+  //顶部最小高度,不包含safeTop
+  private searchHeaderMinHeight: number = 50
+  //页面滚动，顶部可收缩高度
+  private collapseHeight: number = this.searchHeaderMaxHeight - this.searchHeaderMinHeight
+  //页面滚动时，顶部动态高度
+  @State searchHeaderDynamicHeight: number = this.searchHeaderMaxHeight
+  //页面滚动时，搜索框距离顶部位置
+  @State searchRowPositionY: number = this.searchHeaderMinHeight + this.safeTop
+  //页面滚动时，搜索框宽度，单位百分比
+  @State searchRowWidth: number = 100
   @State isRefreshing: boolean = false
   @State promptText: string = "下拉刷新"
-
   @State adUrl: string = ''
   @State tabsCurrentIndex: number = 0
   @State tabList: TabInfo[] = []
   @State showBackTop: boolean[] = []
 
-  @StorageProp('safeTop') safeTop: number = 0
-  @StorageProp('safeBottom') safeBottom: number = 0
-
   private tabsController: TabsController = new TabsController()
   private scrollScroller: Scroller = new Scroller()
-
   private waterFlowScrollerList: Scroller[] = [new Scroller(),new Scroller(),new Scroller(),new Scroller(),new Scroller()]
-
   private swiperData = new DataSource<BannerInfo>([])
   private nineMenuList = new DataSource<NineMenuInfo>([])
   private nineMenuList2 = new DataSource<NineMenuInfo>([])
@@ -39,7 +46,6 @@ export struct Home {
   aboutToAppear() {
     this.queryInfo()
   }
-
 
   build() {
     Refresh({ refreshing: $$this.isRefreshing, builder: this.refreshComponent() }) {
@@ -53,12 +59,32 @@ export struct Home {
             this.TabsContentList()
           }
           .width(StyleConstants.FULL_WIDTH)
-          .padding({top: this.searchHeaderHeight + this.safeTop})
+          .padding({top: this.searchHeaderDynamicHeight + this.safeTop})
         }
-        .edgeEffect(EdgeEffect.Spring)
         .friction(0.6)
         .scrollBar(BarState.Off)
         .backgroundColor('#F6F0F7')
+        .edgeEffect(EdgeEffect.Spring)
+        .onDidScroll(() => {
+          const currentOffsetY = this.scrollScroller.currentOffset().yOffset
+          if(Math.floor(currentOffsetY) >= this.searchHeaderMinHeight) {
+            this.searchHeaderDynamicHeight = this.searchHeaderMinHeight
+          } else {
+            let height = this.searchHeaderMaxHeight - Math.floor(currentOffsetY)
+            if(height < this.searchHeaderMinHeight) {
+              height = this.searchHeaderMinHeight
+            }
+            this.searchHeaderDynamicHeight = height
+          }
+
+          if(Math.floor(currentOffsetY) >= this.collapseHeight) {
+            this.searchRowPositionY = this.searchHeaderMinHeight + this.safeTop - this.collapseHeight
+            this.searchRowWidth = 80
+          } else {
+            this.searchRowPositionY = this.searchHeaderMinHeight + this.safeTop - Math.floor(currentOffsetY)
+            this.searchRowWidth = 100 - Math.floor(currentOffsetY) * 0.45
+          }
+        })
         .width(StyleConstants.FULL_WIDTH)
         .height(StyleConstants.FULL_HEIGHT)
 
@@ -68,17 +94,12 @@ export struct Home {
       .height(StyleConstants.FULL_HEIGHT)
     }
     .pullToRefresh(true)
-    .refreshOffset(96)
+    .refreshOffset(54 + this.safeTop)
     .onStateChange((refreshStatus: RefreshStatus) => {this.promptText = getRefreshStatusText(refreshStatus)})
     .onOffsetChange(offset => {
       WindowUtil.setWindowSystemBarProperties({statusBarContentColor: offset > this.safeTop ? '#000000':'#FFFFFF'})
     })
-    .onRefreshing(() => {
-      setTimeout(() => {
-        this.promptText = '刷新成功'
-        this.isRefreshing = false
-      }, 2000)
-    })
+    .onRefreshing(() => { this.queryInfo() })
   }
 
   @Builder
@@ -99,7 +120,7 @@ export struct Home {
           .margin({right: 16})
       }
       .width('100%')
-      .position({x: 0, y: this.safeTop})
+      .position({x: 0, y: this.safeTop + 10})
       Row() {
         Row() {
           Image($r('app.media.ic_search'))
@@ -119,16 +140,18 @@ export struct Home {
             .margin({right: 8})
         }
         .alignItems(VerticalAlign.Center)
-        .width('100%')
+        .width(`${this.searchRowWidth}%`)
         .height(32)
         .backgroundColor(Color.White)
         .borderRadius(12)
       }
       .padding({left: 16, right: 16})
-      .position({x: 0, y: 40 + this.safeTop})
+      .width(StyleConstants.FULL_WIDTH)
+      .justifyContent(FlexAlign.Center)
+      .position({x: 0, y: this.searchRowPositionY})
     }
     .width(StyleConstants.FULL_WIDTH)
-    .height(this.searchHeaderHeight + this.safeTop)
+    .height(this.searchHeaderDynamicHeight + this.safeTop)
     .backgroundColor($r('app.color.common_header_bg'))
     .position({x: 0, y: 0})
     .zIndex(1)
@@ -184,7 +207,6 @@ export struct Home {
       .width(StyleConstants.FULL_WIDTH)
       .backgroundColor(Color.White)
   }
-
 
   @Builder
   MenuSliderGrid(list: DataSource<NineMenuInfo>) {
@@ -295,6 +317,10 @@ export struct Home {
       this.showBackTop = new Array(tabLen).fill(false)
       // this.waterFlowScrollerList = new Array(tabLen).fill(new Scroller())
       this.tabList = info.tabList || []
+
+      if(this.isRefreshing) {
+        this.isRefreshing = false
+      }
     })
   }
 }

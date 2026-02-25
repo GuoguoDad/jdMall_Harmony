@@ -16,7 +16,6 @@ export struct Mine {
   private fixedHeaderHeight: number = 40 + this.safeTop
   private nineMenuList = new DataSource<FunctionInfo>([])
   private nineMenuList2 = new DataSource<FunctionInfo>([])
-
   private scrollScroller: Scroller = new Scroller()
   private tabsController = new TabsController()
   private waterFlowScrollerList: Scroller[] = [new Scroller(),new Scroller(),new Scroller(),new Scroller(),new Scroller(),new Scroller(),new Scroller(),new Scroller()]

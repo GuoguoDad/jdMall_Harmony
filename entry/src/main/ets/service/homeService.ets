@@ -1,4 +1,4 @@
-import { isSuccess, RequestUtil, EnvConfig } from "@ohos/common"
+import { isSuccess, RequestUtil, EnvConfig, sleep } from "@ohos/common"
 import { ToastUtil } from '@pura/harmony-utils'
 
 export const queryHomePageInfo = async() => {
@@ -6,6 +6,7 @@ export const queryHomePageInfo = async() => {
   if(isSuccess(res.code) && res.msg) {
     ToastUtil.showToast(res.msg)
   }
+  await sleep(500)
   return res.data
 }
 
