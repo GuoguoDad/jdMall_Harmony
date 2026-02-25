@@ -8,7 +8,7 @@ import {
   DataSource,
   CommonDotIndicator
 } from '@ohos/common'
-import { DisplayUtil, LogUtil, WindowUtil } from '@pura/harmony-utils'
+import { DisplayUtil, LogUtil, ToastUtil, WindowUtil } from '@pura/harmony-utils'
 import { queryHomePageInfo, TabInfo, BannerInfo, NineMenuInfo } from '../../service/homeService'
 
 @Component
@@ -319,6 +319,7 @@ export struct Home {
       this.tabList = info.tabList || []
 
       if(this.isRefreshing) {
+        ToastUtil.showShort('刷新成功', {alignment: Alignment.Center})
         this.isRefreshing = false
       }
     })
