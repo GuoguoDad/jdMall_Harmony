@@ -1,4 +1,4 @@
-import { CommodityList, DataSource, FloatingBackTop, StyleConstants } from '@ohos/common'
+import { CommodityList, CommonDotIndicator, DataSource, FloatingBackTop, StyleConstants } from '@ohos/common'
 import { ImageKnifeComponent } from '@ohos/imageknife'
 import { DisplayUtil, LogUtil } from '@pura/harmony-utils'
 import { FunctionInfo, queryMinePageInfo, TabInfo } from '../../service/mineService'
@@ -14,7 +14,6 @@ export struct Mine {
   @State tabList: TabInfo[] = []
 
   private fixedHeaderHeight: number = 40 + this.safeTop
-
   private nineMenuList = new DataSource<FunctionInfo>([])
   private nineMenuList2 = new DataSource<FunctionInfo>([])
 
@@ -165,109 +164,57 @@ export struct Mine {
     .zIndex(2)
   }
 
+
+  @Builder
+  OrderInfoRowItem(icon: ResourceStr, text: string, align: FlexAlign) {
+    Row() {
+      Image(icon)
+        .width(18)
+        .height(18)
+      Text(text)
+        .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
+        .margin({left: 4})
+    }
+    .width('calc(100% / 3)')
+    .height(StyleConstants.FULL_WIDTH)
+    .alignItems(VerticalAlign.Center)
+    .justifyContent(align)
+  }
+
+  @Builder
+  OrderInfoColumnItem(icon: ResourceStr, text: string) {
+    Column() {
+      Image(icon)
+        .width(42)
+        .height(42)
+      Text(text)
+        .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
+        .margin({top: 2})
+    }
+    .width('calc(100% / 4)')
+    .padding({bottom: 20})
+    .justifyContent(FlexAlign.Center)
+    .alignItems(HorizontalAlign.Center)
+    .height(StyleConstants.FULL_HEIGHT)
+  }
+
   @Builder
   OrderInfo() {
     Column() {
       Row() {
-        Row() {
-          Image($r('app.media.ic_goods_star'))
-            .width(18)
-            .height(18)
-          Text('商品收藏0')
-            .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
-            .margin({left: 4})
-        }
-        .width('calc(100% / 3)')
-        .height(StyleConstants.FULL_WIDTH)
-        .alignItems(VerticalAlign.Center)
-        .justifyContent(FlexAlign.Start)
-
-        Row() {
-          Image($r('app.media.ic_store_focus'))
-            .width(18)
-            .height(18)
-          Text('店铺关注16')
-            .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
-            .margin({left: 4})
-        }
-        .width('calc(100% / 3)')
-        .height(StyleConstants.FULL_WIDTH)
-        .alignItems(VerticalAlign.Center)
-        .justifyContent(FlexAlign.Center)
-
-        Row() {
-          Image($r('app.media.ic_look_history'))
-            .width(18)
-            .height(18)
-          Text('浏览记录20')
-            .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
-            .margin({left: 4})
-        }
-        .width('calc(100% / 3)')
-        .height(StyleConstants.FULL_WIDTH)
-        .alignItems(VerticalAlign.Center)
-        .justifyContent(FlexAlign.End)
+        this.OrderInfoRowItem($r('app.media.ic_goods_star'), '商品收藏0', FlexAlign.Start)
+        this.OrderInfoRowItem($r('app.media.ic_store_focus'), '店铺关注16', FlexAlign.Center)
+        this.OrderInfoRowItem($r('app.media.ic_look_history'), '浏览记录20', FlexAlign.End)
       }
       .height(42)
-      .border({width: { bottom: 1}, style: {bottom: BorderStyle.Solid}, color: '#F2F2F2'})
+      .border({width: {bottom: 1}, style: {bottom: BorderStyle.Solid}, color: '#F2F2F2'})
       .width(StyleConstants.FULL_WIDTH)
 
       Row() {
-        Column() {
-          Image($r('app.media.ic_todo_pay'))
-            .width(42)
-            .height(42)
-          Text('待付款')
-            .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
-            .margin({top: 2})
-        }
-        .width('calc(100% / 4)')
-        .padding({bottom: 20})
-        .justifyContent(FlexAlign.Center)
-        .alignItems(HorizontalAlign.Center)
-        .height(StyleConstants.FULL_HEIGHT)
-
-        Column() {
-          Image($r('app.media.ic_todo_get'))
-            .width(42)
-            .height(42)
-          Text('待收货')
-            .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
-            .margin({top: 2})
-        }
-        .width('calc(100% / 4)')
-        .padding({bottom: 20})
-        .justifyContent(FlexAlign.Center)
-        .alignItems(HorizontalAlign.Center)
-        .height(StyleConstants.FULL_HEIGHT)
-
-        Column() {
-          Image($r('app.media.ic_todo_evaluate'))
-            .width(42)
-            .height(42)
-          Text('待评价')
-            .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
-            .margin({top: 2})
-        }
-        .width('calc(100% / 4)')
-        .padding({bottom: 20})
-        .justifyContent(FlexAlign.Center)
-        .alignItems(HorizontalAlign.Center)
-        .height(StyleConstants.FULL_HEIGHT)
-
-        Column() {
-          Image($r('app.media.ic_todo_exchange'))
-            .width(42)
-            .height(42)
-          Text('退货/售后')
-            .fontSize(StyleConstants.FONT_SIZE_FOURTEEN)
-            .margin({top: 2})
-        }
-        .width('calc(100% / 4)')
-        .padding({bottom: 20})
-        .justifyContent(FlexAlign.Center)
-        .alignItems(HorizontalAlign.Center)
-        .height(StyleConstants.FULL_HEIGHT)
+        this.OrderInfoColumnItem($r('app.media.ic_todo_pay'), '待付款')
+        this.OrderInfoColumnItem($r('app.media.ic_todo_get'), '待收货')
+        this.OrderInfoColumnItem($r('app.media.ic_todo_evaluate'), '待评价')
+        this.OrderInfoColumnItem($r('app.media.ic_todo_exchange'), '退货/售后')
       }
       .height(90)
       .width(StyleConstants.FULL_WIDTH)
@@ -280,56 +227,39 @@ export struct Mine {
     .margin({left: 10, right: 10, top: 10})
   }
 
+
+  @Builder
+  MenuSliderGrid(list: DataSource<FunctionInfo>) {
+    Grid() {
+      LazyForEach(list, (item: FunctionInfo) => {
+        GridItem() {
+          Column() {
+            ImageKnifeComponent({
+              imageKnifeOption: {
+                loadSrc: item.menuIcon,
+                placeholderSrc: $r('app.media.default'),
+                errorholderSrc: $r('app.media.default'),
+                objectFit: ImageFit.Fill
+              }
+            }).width(40).height(40)
+            Text(item.menuName)
+              .margin({top: 4})
+              .fontSize(12)
+              .fontColor('#4B4B4B')
+          }
+        }
+      }, (item: FunctionInfo) => item.menuCode)
+    }
+    .padding({bottom: 26})
+    .columnsTemplate('1fr 1fr 1fr 1fr 1fr')
+    .rowsTemplate('1fr')
+  }
+
   @Builder
   MenuSlider() {
     Swiper() {
-      Grid() {
-        LazyForEach(this.nineMenuList, (item: FunctionInfo) => {
-          GridItem() {
-            Column() {
-              ImageKnifeComponent({
-                imageKnifeOption: {
-                  loadSrc: item.menuIcon,
-                  placeholderSrc: $r('app.media.default'),
-                  errorholderSrc: $r('app.media.default'),
-                  objectFit: ImageFit.Fill
-                }
-              }).width(40).height(40)
-              Text(item.menuName)
-                .margin({top: 4})
-                .fontSize(12)
-                .fontColor('#4B4B4B')
-            }
-          }
-        }, (item: FunctionInfo) => item.menuCode)
-      }
-      .padding({bottom: 26})
-      .columnsTemplate('1fr 1fr 1fr 1fr 1fr')
-      .rowsTemplate('1fr')
-
-      Grid() {
-        LazyForEach(this.nineMenuList2, (item: FunctionInfo) => {
-          GridItem() {
-            Column() {
-              ImageKnifeComponent({
-                imageKnifeOption: {
-                  loadSrc: item.menuIcon,
-                  placeholderSrc: $r('app.media.default'),
-                  errorholderSrc: $r('app.media.default'),
-                  objectFit: ImageFit.Fill
-                }
-              }).width(40).height(40)
-              Text(item.menuName)
-                .margin({top: 4})
-                .fontSize(12)
-                .fontColor('#4B4B4B')
-            }
-          }
-        }, (item: FunctionInfo) => item.menuCode)
-      }
-      .padding({bottom: 26})
-      .columnsTemplate('1fr 1fr 1fr 1fr 1fr')
-      .rowsTemplate('1fr')
+      this.MenuSliderGrid(this.nineMenuList)
+      this.MenuSliderGrid(this.nineMenuList2)
     }
     .height(90)
     .width('calc(100% - 20vp)')
@@ -341,15 +271,7 @@ export struct Mine {
     .loop(false)
     .backgroundColor(Color.White)
     .itemSpace(0)
-    .indicator( // 设置圆点导航点样式
-      new DotIndicator()
-        .itemWidth(6)
-        .itemHeight(6)
-        .selectedItemWidth(6)
-        .selectedItemHeight(6)
-        .color($r('app.color.dot_color'))
-        .selectedColor($r('app.color.dot_active_color'))
-    )
+    .indicator(CommonDotIndicator())
     .curve(Curve.Linear)
   }
 

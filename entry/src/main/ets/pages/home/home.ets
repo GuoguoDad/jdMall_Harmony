@@ -1,12 +1,19 @@
 import { ImageKnifeComponent } from '@ohos/imageknife'
-import { RefreshComponent, getRefreshStatusText, StyleConstants, CommodityList, FloatingBackTop, DataSource } from '@ohos/common'
+import {
+  RefreshComponent,
+  getRefreshStatusText,
+  StyleConstants,
+  CommodityList,
+  FloatingBackTop,
+  DataSource,
+  CommonDotIndicator
+} from '@ohos/common'
 import { DisplayUtil, LogUtil, WindowUtil } from '@pura/harmony-utils'
 import { queryHomePageInfo, TabInfo, BannerInfo, NineMenuInfo } from '../../service/homeService'
 
 @Component
 export struct Home {
   @State searchHeaderHeight: number = 80 //min-40, max 80
-
   @State isRefreshing: boolean = false
   @State promptText: string = "下拉刷新"
 
@@ -18,7 +25,7 @@ export struct Home {
   @StorageProp('safeTop') safeTop: number = 0
   @StorageProp('safeBottom') safeBottom: number = 0
 
-  private tabsController = new TabsController()
+  private tabsController: TabsController = new TabsController()
   private scrollScroller: Scroller = new Scroller()
 
   private waterFlowScrollerList: Scroller[] = [new Scroller(),new Scroller(),new Scroller(),new Scroller(),new Scroller()]
@@ -151,16 +158,7 @@ export struct Home {
         .loop(true)
         .duration(500)
         .itemSpace(0)
-        .indicator( // 设置圆点导航点样式
-          new DotIndicator()
-            .itemWidth(8)
-            .itemHeight(8)
-            .selectedItemWidth(8)
-            .selectedItemHeight(8)
-            .color($r('app.color.dot_color'))
-            .selectedColor($r('app.color.dot_active_color'))
-            .maxDisplayCount(9)
-        )
+        .indicator(CommonDotIndicator(8,8,8,8))
         .curve(Curve.Linear)
       }
       .width(StyleConstants.FULL_WIDTH)
@@ -187,56 +185,39 @@ export struct Home {
       .backgroundColor(Color.White)
   }
 
+
+  @Builder
+  MenuSliderGrid(list: DataSource<NineMenuInfo>) {
+    Grid() {
+      LazyForEach(list, (item: NineMenuInfo) => {
+        GridItem() {
+          Column() {
+            ImageKnifeComponent({
+              imageKnifeOption: {
+                loadSrc: item.menuIcon,
+                placeholderSrc: $r('app.media.default'),
+                errorholderSrc: $r('app.media.default'),
+                objectFit: ImageFit.Fill
+              }
+            }).width(40).height(40)
+            Text(item.menuName)
+              .margin({top: 4})
+              .fontSize(12)
+              .fontColor('#4B4B4B')
+          }
+        }
+      }, (item: NineMenuInfo) => item.menuCode)
+    }
+    .padding({bottom: 26})
+    .columnsTemplate('1fr 1fr 1fr 1fr 1fr')
+    .rowsTemplate('1fr 1fr')
+  }
+
   @Builder
   MenuSlider() {
     Swiper() {
-      Grid() {
-        LazyForEach(this.nineMenuList, (item: NineMenuInfo) => {
-          GridItem() {
-            Column() {
-              ImageKnifeComponent({
-                imageKnifeOption: {
-                  loadSrc: item.menuIcon,
-                  placeholderSrc: $r('app.media.default'),
-                  errorholderSrc: $r('app.media.default'),
-                  objectFit: ImageFit.Fill
-                }
-              }).width(40).height(40)
-              Text(item.menuName)
-                .margin({top: 4})
-                .fontSize(12)
-                .fontColor('#4B4B4B')
-            }
-          }
-        }, (item: NineMenuInfo) => item.menuCode)
-      }
-      .padding({bottom: 26})
-      .columnsTemplate('1fr 1fr 1fr 1fr 1fr')
-      .rowsTemplate('1fr 1fr')
-
-      Grid() {
-        LazyForEach(this.nineMenuList2, (item: NineMenuInfo) => {
-          GridItem() {
-            Column() {
-              ImageKnifeComponent({
-                imageKnifeOption: {
-                  loadSrc: item.menuIcon,
-                  placeholderSrc: $r('app.media.default'),
-                  errorholderSrc: $r('app.media.default'),
-                  objectFit: ImageFit.Fill
-                }
-              }).width(40).height(40)
-              Text(item.menuName)
-                .margin({top: 4})
-                .fontSize(12)
-                .fontColor('#4B4B4B')
-            }
-          }
-        }, (item: NineMenuInfo) => item.menuCode)
-      }
-      .padding({bottom: 26})
-      .columnsTemplate('1fr 1fr 1fr 1fr 1fr')
-      .rowsTemplate('1fr 1fr')
+      this.MenuSliderGrid(this.nineMenuList)
+      this.MenuSliderGrid(this.nineMenuList2)
     }
     .height(168)
     .width(StyleConstants.FULL_WIDTH)
@@ -245,15 +226,7 @@ export struct Home {
     .loop(false)
     .backgroundColor(Color.White)
     .itemSpace(0)
-    .indicator( // 设置圆点导航点样式
-      new DotIndicator()
-        .itemWidth(6)
-        .itemHeight(6)
-        .selectedItemWidth(6)
-        .selectedItemHeight(6)
-        .color($r('app.color.dot_color'))
-        .selectedColor($r('app.color.dot_active_color'))
-    )
+    .indicator(CommonDotIndicator())
     .curve(Curve.Linear)
   }
 

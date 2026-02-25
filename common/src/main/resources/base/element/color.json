@@ -7,6 +7,14 @@
     {
       "name": "goods_price",
       "value": "#E70000"
+    },
+    {
+      "name": "dot_color",
+      "value": "#808080"
+    },
+    {
+      "name": "dot_active_color",
+      "value": "#EA3931"
     }
   ]
 }

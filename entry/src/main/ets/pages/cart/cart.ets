@@ -217,7 +217,7 @@ export struct Cart {
   @Builder
   BackTop() {
     FloatingBackTop({
-      location: ({ x: '85%', y: '80%' }),
+      location: ({ x: '85%', y: '90%' }),
       display: (this.showBackTop ? Visibility.Visible : Visibility.None),
       onClickFun: (() => {
         this.probablyLikeScroller.scrollTo({ xOffset: 0, yOffset: 0, animation: { duration: 200, curve: Curve.Friction  } })
