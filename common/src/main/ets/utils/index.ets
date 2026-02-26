@@ -18,6 +18,9 @@ export const getRefreshStatusText = (refreshStatus: RefreshStatus) => {
     case RefreshStatus.Refresh:
       promptText = '正在刷新'
       break
+    case RefreshStatus.Done:
+      promptText = '刷新完成'
+      break
   }
   return promptText
 }

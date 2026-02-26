@@ -12,3 +12,7 @@
 /.appanalyzer
 
 /mock_server/node_modules/
+
+_generated
+**/route_map.json
+**/router_map.json

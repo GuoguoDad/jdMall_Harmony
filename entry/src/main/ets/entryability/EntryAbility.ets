@@ -3,6 +3,8 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import { AppUtil } from '@pura/harmony-utils'
 import { DialogHelper, Orientation } from '@pura/harmony-dialog';
+import { ZRouter } from '@hzw/zrouter'
+import BuildProfile from 'BuildProfile'
 
 const DOMAIN = 0x0000;
 
@@ -10,6 +12,7 @@ export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     AppUtil.init(this.context);
     this.setDialogHelperDefaultConfig()
+    this.initZRouter()
     try {
       this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
     } catch (err) {
@@ -101,5 +104,20 @@ export default class EntryAbility extends UIAbility {
       config.toast_imageSize = { width: 45, height: 45 }; //Tip图片尺寸。垂直默认值：45*45vp，水平建议值：24*24vp。
       config.toast_margin = 10; //吐司的图片与文字间距。
     })
+  }
+
+  initZRouter(){
+    ZRouter.initialize((config) => {
+      // 设置context
+      config.context = this.context
+      config.isLoggingEnabled = BuildProfile.DEBUG
+      config.isHSPModuleDependent = true
+      // 服务路由初始化配置，如果没有使用服务路由，可不设置
+      // config.loadDynamicModule = ['@hzw/hara', 'harb', 'hspc']
+      // config.onDynamicLoadComplete = () => {
+      //   console.log("已完成所有模块的加载")
+      // }
+    })
+
   }
 }

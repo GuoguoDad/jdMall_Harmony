@@ -6,7 +6,8 @@
     "@pura/harmony-utils": "^1.4.0",
     "@pura/harmony-dialog": "^1.1.8",
     "@yue/webview_javascript_bridge": "^1.0.1",
-    "@ohos/imageknife": "^3.2.8"
+    "@ohos/imageknife": "^3.2.8",
+    "@hzw/zrouter": "^1.9.0"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.25",

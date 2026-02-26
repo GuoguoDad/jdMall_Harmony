@@ -6,7 +6,7 @@ export const queryHomePageInfo = async() => {
   if(isSuccess(res.code) && res.msg) {
     ToastUtil.showToast(res.msg)
   }
-  await sleep(500)
+  await sleep(1000)
   return res.data
 }
 

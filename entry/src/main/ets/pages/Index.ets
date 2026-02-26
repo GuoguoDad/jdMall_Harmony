@@ -1,5 +1,6 @@
 import { StyleConstants } from '@ohos/common'
 import { WindowUtil } from '@pura/harmony-utils'
+import { ZRouter } from '@hzw/zrouter'
 import { Home } from './home/home'
 import { Category } from './category/category'
 import { Cart } from './cart/cart'
@@ -35,7 +36,7 @@ struct Index {
   }
 
   build() {
-    Column() {
+    Navigation(ZRouter.getNavStack()) {
       Tabs({barPosition:BarPosition.End, controller:this.controller, index: this.currentIndex}){
         TabContent(){
           Home()
@@ -51,12 +52,15 @@ struct Index {
         }.tabBar(this.TabBuilder('我的', 3, $r('app.media.ic_mine'), $r('app.media.ic_mine_active')))
       }
       .scrollable(false)
+      .width(StyleConstants.FULL_WIDTH)
+      .height(StyleConstants.FULL_HEIGHT)
       .barHeight(50 + this.safeBottom)
       .barBackgroundColor(Color.White)
       .onChange((index: number) => {
         WindowUtil.setWindowSystemBarProperties({statusBarContentColor: [0, 1].includes(index) ? '#FFFFFF' : '#000000'})
       })
     }
+    .hideToolBar(true)
     .width(StyleConstants.FULL_WIDTH)
     .height(StyleConstants.FULL_HEIGHT)
   }

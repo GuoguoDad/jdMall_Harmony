@@ -319,7 +319,7 @@ export struct Home {
       this.tabList = info.tabList || []
 
       if(this.isRefreshing) {
-        ToastUtil.showShort('刷新成功', {alignment: Alignment.Center})
+        // ToastUtil.showShort('刷新成功', {alignment: Alignment.Center})
         this.isRefreshing = false
       }
     })

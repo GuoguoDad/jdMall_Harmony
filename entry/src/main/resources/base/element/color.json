@@ -31,6 +31,10 @@
     {
       "name": "common_header_bg",
       "value": "#EA3931"
+    },
+    {
+      "name": "indian_red",
+      "value": "#CB473E"
     }
   ]
 }

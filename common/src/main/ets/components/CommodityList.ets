@@ -1,3 +1,4 @@
+import { ZRouter } from '@hzw/zrouter'
 import { ImageKnifeComponent } from '@ohos/imageknife'
 import { LogUtil } from '@pura/harmony-utils'
 import { StyleConstants } from '../../../../Index'
@@ -118,6 +119,13 @@ export struct CommodityList {
     .alignItems(HorizontalAlign.Center)
     .backgroundColor(Color.White)
     .borderRadius(8)
+    .onClick(()=> {
+      ZRouter.getInstance()
+        .setParam({goodsId: item.id})
+        .setLunchMode(LaunchMode.STANDARD)
+        .setAnimate(true)
+        .navigation("GoodsDetail")
+    })
   }
 
 

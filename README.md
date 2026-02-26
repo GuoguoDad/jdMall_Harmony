@@ -2,9 +2,10 @@
  高仿某东商城harmony版本，个人学习harmony项目
 
 1. 鸿蒙官方状态管理
-2. 网络使用@ohos/axios进行封装
-3. 使用node项目mock服务端接口(mock_server目录)
-4. 目前实现了首页、分类、购物车、我的
+2. 使用@hzw/zrouter路由管理
+3. 网络使用@ohos/axios进行封装
+4. 使用node项目mock服务端接口(mock_server目录)
+5. 目前实现了首页、分类、购物车、我的、商品详情
 
 * ### 同款Android Kotlin版本（https://github.com/GuoguoDad/jd_mall）
 * ### 同款Flutter版本（https://github.com/GuoguoDad/jd_mall_flutter）
@@ -45,6 +46,7 @@ mock_server nodejs: v18.20.6
 
 | 库                        | 功能         |
 |--------------------------|------------|
+| **@hzw/zrouter**         | **路由管理**   |
 | **@ohos/axios**          | **网络框架**   |
 | **@pura/harmony-utils**  | **工具库**    |
 | **@ohos/imageknife**     | **图片显示**   |
