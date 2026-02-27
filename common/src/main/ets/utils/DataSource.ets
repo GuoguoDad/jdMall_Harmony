@@ -1,6 +1,6 @@
 export class DataSource<T> implements IDataSource {
-  private dataArray: T[] = [];
-  private listeners: DataChangeListener[] = [];
+  private dataArray: T[] = []
+  private listeners: DataChangeListener[] = []
 
   constructor(list: T[]) {
     this.dataArray = list
@@ -8,68 +8,68 @@ export class DataSource<T> implements IDataSource {
 
   // 获取索引对应的数据
   public getData(index: number): T {
-    return this.dataArray[index];
+    return this.dataArray[index]
   }
 
   // 通知控制器数据重新加载
   notifyDataReload(): void {
     this.listeners.forEach(listener => {
-      listener.onDataReloaded();
+      listener.onDataReloaded()
     })
   }
 
   // 通知控制器数据增加
-  notifyDataAdd(index: number): void {
+  notifyDataAdd(index: number) {
     this.listeners.forEach(listener => {
-      listener.onDataAdd(index);
+      listener.onDataAdd(index)
     })
   }
 
   // 通知控制器数据变化
-  notifyDataChange(index: number): void {
+  notifyDataChange(index: number) {
     this.listeners.forEach(listener => {
-      listener.onDataChange(index);
+      listener.onDataChange(index)
     })
   }
 
   // 通知控制器数据删除
-  notifyDataDelete(index: number): void {
+  notifyDataDelete(index: number) {
     this.listeners.forEach(listener => {
-      listener.onDataDelete(index);
+      listener.onDataDelete(index)
     })
   }
 
   // 通知控制器数据位置变化
-  notifyDataMove(from: number, to: number): void {
+  notifyDataMove(from: number, to: number) {
     this.listeners.forEach(listener => {
-      listener.onDataMove(from, to);
+      listener.onDataMove(from, to)
     })
   }
 
   // 通知控制器数据批量修改
-  notifyDatasetChange(operations: DataOperation[]): void {
+  notifyDatasetChange(operations: DataOperation[]) {
     this.listeners.forEach(listener => {
-      listener.onDatasetChange(operations);
+      listener.onDatasetChange(operations)
     })
   }
 
   // 获取数据总数
   public totalCount(): number {
-    return this.dataArray.length;
+    return this.dataArray.length
   }
 
   // 注册改变数据的控制器
-  registerDataChangeListener(listener: DataChangeListener): void {
+  registerDataChangeListener(listener: DataChangeListener) {
     if (this.listeners.indexOf(listener) < 0) {
-      this.listeners.push(listener);
+      this.listeners.push(listener)
     }
   }
 
   // 注销改变数据的控制器
-  unregisterDataChangeListener(listener: DataChangeListener): void {
-    const pos = this.listeners.indexOf(listener);
+  unregisterDataChangeListener(listener: DataChangeListener) {
+    const pos = this.listeners.indexOf(listener)
     if (pos >= 0) {
-      this.listeners.splice(pos, 1);
+      this.listeners.splice(pos, 1)
     }
   }
 
@@ -79,8 +79,13 @@ export class DataSource<T> implements IDataSource {
   }
 
 
-  public addNewItems(items: T[]): void {
+  public addNewItems(items: T[]) {
     this.dataArray.push(...items)
-    this.notifyDataReload()
+
+    const lastIndex = this.dataArray.length
+    items.forEach((_, index) => {
+      const newIndex = lastIndex + index
+      this.notifyDataAdd(newIndex)
+    })
   }
 }
