@@ -1,29 +1,28 @@
-import { CommonDotIndicator, DataSource, StyleConstants } from '@ohos/common'
+import { CommonDotIndicator, DataSource, StyleConstants, RouterConstants } from '@ohos/common'
 import { ZRoute, ZRouter } from '@hzw/zrouter'
-import { BannerInfo } from '../../../service/detail'
 import { ImageKnifeComponent } from '@ohos/imageknife'
-import { DisplayUtil } from '@pura/harmony-utils'
+import { DisplayUtil, LogUtil } from '@pura/harmony-utils'
+import { BannerInfo, GoodsDetailInfo, queryGoodsDetailInfo } from '../../../service/detailService'
 
 @Entry
-@ZRoute({ name: 'GoodsDetail', useTemplate: true })
+@ZRoute({ name:RouterConstants.goods_detail_page, useTemplate: true })
 @Component
 export struct GoodsDetail {
   @StorageProp('safeTop') safeTop: number = 0
 
   @State topTabCurrentIndex: number = 0
   @State fixedHeaderOpacity: number = 0
+  @State currentSkuIndex: number = 0
+  @State goodsDetailInfo: GoodsDetailInfo = {}
 
-  private goodsImgList = new DataSource<string>([
-    "https://ik.imagekit.io/guoguodad/mall/detail/f5c28554c39fee6d.jpg",
-    "https://ik.imagekit.io/guoguodad/mall/detail/8dff30acead53213.jpg",
-    "https://ik.imagekit.io/guoguodad/mall/detail/1c8f4ba0ccf38c9e.jpg",
-    "https://ik.imagekit.io/guoguodad/mall/detail/44bdb9081eaec2be.jpg",
-    "https://ik.imagekit.io/guoguodad/mall/detail/8ca83cf7694ebd07.jpg",
-    "https://ik.imagekit.io/guoguodad/mall/detail/e71af88949e071ed.jpg",
-    "https://ik.imagekit.io/guoguodad/mall/detail/4de912b7b8ae3bfe.jpg"
-  ])
-
+  private currentSkuImgList = new DataSource<string>([])
   private scrollScroller: Scroller = new Scroller()
+
+  aboutToAppear() {
+    // const param = ZRouter.getInstance().getParamByName(RouterConstants.goods_detail_page)
+    const goodsId = ZRouter.getInstance().getParamByKey<string>('goodsId')
+    this.queryGoodsInfo(goodsId)
+  }
 
   build() {
     Stack() {
@@ -42,7 +41,12 @@ export struct GoodsDetail {
       .width(StyleConstants.FULL_WIDTH)
       .height(StyleConstants.FULL_HEIGHT)
       .onDidScroll(() => {
-        let currentOffset = this.scrollScroller.currentOffset().yOffset
+        let currentOffsetY = this.scrollScroller.currentOffset().yOffset
+        if(Math.floor(currentOffsetY) >= 50) {
+          this.fixedHeaderOpacity = 1
+        } else {
+          this.fixedHeaderOpacity = currentOffsetY / 50
+        }
       })
     }
     .width(StyleConstants.FULL_WIDTH)
@@ -77,13 +81,13 @@ export struct GoodsDetail {
                   .height(4)
                   .border({radius: 20})
                   .margin({top: 6})
-                  .backgroundColor(index == this.topTabCurrentIndex ? $r('app.color.indian_red') : Color.White)
+                  .backgroundColor(index == this.topTabCurrentIndex ? $r('app.color.indian_red') : Color.Transparent)
               }
               .height(50)
               .width('25%')
               .alignItems(HorizontalAlign.Center)
               .justifyContent(FlexAlign.Center)
-              .onClick(()=> this.topTabCurrentIndex = index )
+              .onClick(() => this.topTabCurrentIndex = index )
             }
           },(item: string) => item)
         }
@@ -122,7 +126,7 @@ export struct GoodsDetail {
   GoodsInfo() {
     Column() {
       Swiper() {
-        LazyForEach(this.goodsImgList, (url: string) => {
+        LazyForEach(this.currentSkuImgList, (url: string) => {
           ImageKnifeComponent({
             imageKnifeOption: {
               loadSrc: url,
@@ -145,13 +149,61 @@ export struct GoodsDetail {
       .indicator(CommonDotIndicator(8,8,8,8))
       .curve(Curve.Linear)
       .width(StyleConstants.FULL_WIDTH)
+      .backgroundColor(Color.White)
 
       Column() {
+        Row() {
+          Text(`${this.goodsDetailInfo?.bannerList?.length || ''} 色可选`)
+            .fontSize(16)
+            .fontColor('#545454')
 
+          List(){
+            ForEach(this.goodsDetailInfo?.bannerList || [], (item: BannerInfo, index: number) => {
+              ListItem(){
+                ImageKnifeComponent({
+                  imageKnifeOption: {
+                    loadSrc: item.thumb,
+                    placeholderSrc: $r('app.media.default'),
+                    errorholderSrc: $r('app.media.default'),
+                    objectFit: ImageFit.Fill,
+                  }
+                })
+                  .width(68)
+                  .height(68)
+              }
+              .margin({left: 5, right: 5})
+              .border({width:2, color: index == this.currentSkuIndex ? $r('app.color.fire_red') : Color.Transparent})
+              .onClick(() => {
+                this.currentSkuIndex = index
+                const imgList = this.goodsDetailInfo?.bannerList?.length ? this.goodsDetailInfo?.bannerList[index]?.imgList || [] : []
+                this.currentSkuImgList.setData(imgList)
+              })
+
+            },(item: BannerInfo) => item.colorId)
+          }
+          .layoutWeight(1)
+          .listDirection(Axis.Horizontal)
+          .height(StyleConstants.FULL_HEIGHT)
+        }
+        .height(80)
+        .alignItems(VerticalAlign.Center)
+        .padding({ right: 12, left: 12})
+
+        Text(`￥${this.goodsDetailInfo.goodsInfo?.specialPrice || '-'}`)
+          .fontSize(26)
+          .fontColor($r('app.color.indian_red'))
+          .fontWeight(FontWeight.Bold)
+          .margin({left: 10})
+
+        Text(this.goodsDetailInfo.goodsInfo?.goodsName || '')
+          .fontSize(16)
+          .fontWeight(FontWeight.Bold)
+          .margin({left: 10, top: 10})
       }
       .width('calc(100% - 20vp)')
-      .height(200)
-      .margin({ top: 10})
+      .margin({top: 10})
+      .padding({top: 10, bottom:10})
+      .alignItems(HorizontalAlign.Start)
       .backgroundColor(Color.White)
       .borderRadius(8)
 
@@ -166,5 +218,15 @@ export struct GoodsDetail {
     }
     .width(StyleConstants.FULL_WIDTH)
     .justifyContent(FlexAlign.Start)
+  }
+
+  queryGoodsInfo(goodsId: string) {
+    if(!goodsId) return
+
+    queryGoodsDetailInfo(goodsId).then(res => {
+      this.goodsDetailInfo = res
+      const imgList = res?.bannerList?.length ? res?.bannerList[0]?.imgList || [] : []
+      this.currentSkuImgList.setData(imgList)
+    })
   }
 }
