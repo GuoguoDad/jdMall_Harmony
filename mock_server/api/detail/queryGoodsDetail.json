@@ -1,6 +1,6 @@
 {
   "code": "0",
-  "msg": "",
+  "msg": null,
   "data": {
     "bannerList": [
       {
@@ -40,7 +40,7 @@
         "满199减20",
         "满49减1"
       ],
-      "goodsName": "ASICS亚瑟士 2022春夏男鞋稳定支持经典跑鞋舒适回弹运动鞋 GT-2000 10 蓝色/黄色",
+      "goodsName": "ASICS亚瑟士 2022春夏男鞋稳定支持经典跑鞋舒适回弹运动鞋 GT-2000 10",
       "appraiseList": [
         {
           "headerUrl": "https://ik.imagekit.io/guoguodad/mall/WechatIMG17.jpeg",

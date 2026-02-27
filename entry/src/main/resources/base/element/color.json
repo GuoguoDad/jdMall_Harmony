@@ -35,6 +35,10 @@
     {
       "name": "indian_red",
       "value": "#CB473E"
+    },
+    {
+      "name": "fire_red",
+      "value": "#E49CA3"
     }
   ]
 }

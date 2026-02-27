@@ -6,8 +6,10 @@ import {
   CommodityList,
   FloatingBackTop,
   DataSource,
-  CommonDotIndicator
+  CommonDotIndicator,
+  RouterConstants
 } from '@ohos/common'
+import { ZRouter } from '@hzw/zrouter'
 import { DisplayUtil, LogUtil, ToastUtil, WindowUtil } from '@pura/harmony-utils'
 import { queryHomePageInfo, TabInfo, BannerInfo, NineMenuInfo } from '../../service/homeService'
 
@@ -206,6 +208,13 @@ export struct Home {
       .height(78)
       .width(StyleConstants.FULL_WIDTH)
       .backgroundColor(Color.White)
+      .onClick(()=> {
+        ZRouter.getInstance()
+          .setParam({goodsId: '1'})
+          .setLunchMode(LaunchMode.STANDARD)
+          .setAnimate(true)
+          .navigation(RouterConstants.goods_detail_page)
+      })
   }
 
   @Builder

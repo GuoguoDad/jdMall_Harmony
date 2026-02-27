@@ -1,8 +1,8 @@
 import { isSuccess, RequestUtil, EnvConfig } from "@ohos/common"
 import { ToastUtil } from '@pura/harmony-utils'
 
-export const queryGoodsDetailInfo = async(id: string) => {
-  const res = await RequestUtil.post<GoodsDetailInfo>(`${EnvConfig.baseUrl}/detail/queryGoodsDetail`, { id })
+export const queryGoodsDetailInfo = async(goodsId: string) => {
+  const res = await RequestUtil.post<GoodsDetailInfo>(`${EnvConfig.baseUrl}/detail/queryGoodsDetail`, { goodsId })
   if (isSuccess(res.code) && res.msg) {
     ToastUtil.showToast(res.msg)
   }
@@ -11,9 +11,9 @@ export const queryGoodsDetailInfo = async(id: string) => {
 
 
 export interface GoodsDetailInfo {
-  bannerList: BannerInfo[]
-  goodsInfo: GoodsInfo
-  detailInfo: DetailInfo
+  bannerList?: BannerInfo[]
+  goodsInfo?: GoodsInfo
+  detailInfo?: DetailInfo
 }
 
 export interface BannerInfo {
@@ -34,16 +34,16 @@ export interface AppraiseInfo {
 }
 
 export interface GoodsInfo {
-  originalPrice: string
-  specialPrice: string
-  tagList: string[]
-  goodsName: string
-  appraiseList: AppraiseInfo[]
+  originalPrice?: string
+  specialPrice?: string
+  tagList?: string[]
+  goodsName?: string
+  appraiseList?: AppraiseInfo[]
 }
 
 export interface DetailInfo {
-  hdzq: string
-  dnyx: string
-  introductionList: string[]
-  serviceList: string[]
+  hdzq?: string
+  dnyx?: string
+  introductionList?: string[]
+  serviceList?: string[]
 }

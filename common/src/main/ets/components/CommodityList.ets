@@ -1,11 +1,12 @@
-import { ZRouter } from '@hzw/zrouter'
+import { Route, ZRouter } from '@hzw/zrouter'
 import { ImageKnifeComponent } from '@ohos/imageknife'
 import { LogUtil } from '@pura/harmony-utils'
-import { StyleConstants } from '../../../../Index'
+import { RouterConstants, StyleConstants } from '../../../../Index'
 import { CommodityInfo, queryGoodsListByPage } from '../service/common'
 import { DataSource } from '../utils/DataSource'
 import { LoadMoreFooter } from './LoadMoreFooter'
 
+@Route({ name: RouterConstants.commodity_list_comp })
 @Component
 export struct CommodityList {
   @Prop categoryCode: string = '01'
@@ -124,7 +125,7 @@ export struct CommodityList {
         .setParam({goodsId: item.id})
         .setLunchMode(LaunchMode.STANDARD)
         .setAnimate(true)
-        .navigation("GoodsDetail")
+        .navigation(RouterConstants.goods_detail_page)
     })
   }
 
