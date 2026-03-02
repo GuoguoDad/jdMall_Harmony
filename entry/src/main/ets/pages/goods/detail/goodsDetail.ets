@@ -17,8 +17,6 @@ export struct GoodsDetail {
   @State currentColor: string = ''
   @State goodsDetailInfo: GoodsDetailInfo = {}
 
-  @State ListContentPaddingTop: number = 0
-
   private tabHeaderHeight = 50 + this.safeTop
 
   private currentSkuImgList = new DataSource<string>([])
