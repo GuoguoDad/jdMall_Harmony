@@ -24,6 +24,7 @@ export interface BannerInfo {
 }
 
 export interface AppraiseInfo {
+  appraiseId: string
   headerUrl: string
   userName: string
   content: string

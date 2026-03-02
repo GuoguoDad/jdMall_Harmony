@@ -39,6 +39,14 @@
     {
       "name": "fire_red",
       "value": "#E49CA3"
+    },
+    {
+      "name": "label_grey",
+      "value": "#8A8A8A"
+    },
+    {
+      "name": "rock_grey",
+      "value": "#656766"
     }
   ]
 }

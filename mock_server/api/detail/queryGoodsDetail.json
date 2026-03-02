@@ -43,6 +43,7 @@
       "goodsName": "ASICS亚瑟士 2022春夏男鞋稳定支持经典跑鞋舒适回弹运动鞋 GT-2000 10",
       "appraiseList": [
         {
+          "appraiseId": "appraise01",
           "headerUrl": "https://ik.imagekit.io/guoguodad/mall/WechatIMG17.jpeg",
           "userName": "大**行",
           "content": "外观颜值:外形很好看 别具一格再增加点颜色选择就更好了",
@@ -50,10 +51,13 @@
           "color": "蓝色/黄色",
           "size": "44",
           "imgList": [
-            "https://ik.imagekit.io/guoguodad/mall/iShot2022-04-22_11.00.41.png"
+            "https://ik.imagekit.io/guoguodad/mall/iShot2022-04-22_11.00.41.png?img=1",
+            "https://ik.imagekit.io/guoguodad/mall/iShot2022-04-22_11.00.41.png?img=2",
+            "https://ik.imagekit.io/guoguodad/mall/iShot2022-04-22_11.00.41.png?img=3"
           ]
         },
         {
+          "appraiseId": "appraise02",
           "headerUrl": "https://ik.imagekit.io/guoguodad/mall/header.jpg",
           "userName": "梦**仙",
           "content": "第一次买亚瑟士的跑鞋，可以说很惊喜了，穿着很舒服，回弹也很到位，跑鞋非常专业！",
@@ -61,8 +65,9 @@
           "color": "黑灰色/红色",
           "size": "42",
           "imgList": [
-            "https://ik.imagekit.io/guoguodad/mall/iShot2022-04-22_11.01.00.png",
-            "https://ik.imagekit.io/guoguodad/mall/iShot2022-04-22_11.01.00.png"
+            "https://ik.imagekit.io/guoguodad/mall/iShot2022-04-22_11.01.00.png?img=1",
+            "https://ik.imagekit.io/guoguodad/mall/iShot2022-04-22_11.01.00.png?img=2",
+            "https://ik.imagekit.io/guoguodad/mall/iShot2022-04-22_11.01.00.png?img=3"
           ]
         }
       ]
@@ -83,7 +88,8 @@
         "https://ik.imagekit.io/guoguodad/mall/detail/c8cf40cac78e0532.jpg",
         "https://ik.imagekit.io/guoguodad/mall/detail/1e52c37e4d539d0b.jpg",
         "https://ik.imagekit.io/guoguodad/mall/detail/e0dc610050c48363.jpg",
-        "https://ik.imagekit.io/guoguodad/mall/detail/acc39177f635cb84.jpg"
+        "https://ik.imagekit.io/guoguodad/mall/detail/acc39177f635cb84.jpg",
+        "https://ik.imagekit.io/guoguodad/mall/detail/283084254c9e270a.jpg"
       ],
       "serviceList": [
         "https://ik.imagekit.io/guoguodad/mall/detail/283084254c9e270a.jpg"
