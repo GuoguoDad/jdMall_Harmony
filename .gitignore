@@ -3,6 +3,7 @@
 /local.properties
 /.idea
 **/build
+**/.preview
 /.hvigor
 .cxx
 /.clangd
