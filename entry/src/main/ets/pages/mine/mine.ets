@@ -1,6 +1,7 @@
 import { CommodityList, CommonDotIndicator, DataSource, FloatingBackTop, StyleConstants } from '@ohos/common'
 import { ImageKnifeComponent } from '@ohos/imageknife'
 import { DisplayUtil, LogUtil } from '@pura/harmony-utils'
+import { CommonSwiperModifier } from '../../modifier/swiperModifier'
 import { FunctionInfo, queryMinePageInfo, TabInfo } from '../../service/mineService'
 
 @Component
@@ -265,13 +266,8 @@ export struct Mine {
     .margin({left: 10, right: 10, top: 10})
     .border({radius: 10})
     .padding({top: 6})
-    .index(0)
-    .autoPlay(false)
-    .loop(false)
     .backgroundColor(Color.White)
-    .itemSpace(0)
-    .indicator(CommonDotIndicator())
-    .curve(Curve.Linear)
+    .attributeModifier(new CommonSwiperModifier('menuSlier'))
   }
 
   @Builder

@@ -10,6 +10,7 @@ import { ZRoute, ZRouter } from '@hzw/zrouter'
 import { ImageKnifeComponent } from '@ohos/imageknife'
 import { DisplayUtil } from '@pura/harmony-utils'
 import { AppraiseInfo, BannerInfo, GoodsDetailInfo, queryGoodsDetailInfo } from '../../../service/detailService'
+import { CommonSwiperModifier } from '../../../modifier/swiperModifier'
 
 @Entry
 @ZRoute({ name:RouterConstants.goods_detail_page, useTemplate: true })
@@ -22,14 +23,12 @@ export struct GoodsDetail {
   @State currentSkuIndex: number = 0
   @State currentColor: string = ''
   @State goodsDetailInfo: GoodsDetailInfo = {}
+  @State isClick: boolean = false
 
   private tabHeaderHeight = 50 + this.safeTop
-
   private currentSkuImgList = new DataSource<string>([])
   private scrollScroller: Scroller = new Scroller()
   private introductionImgList = new DataSource<string>([])
-  private isClick: boolean = false
-
   private storeGoodsScroller = new Scroller()
 
   goodsItemWidth = (DisplayUtil.getWidth() - 10) / 2
@@ -62,10 +61,10 @@ export struct GoodsDetail {
         const currentOffsetY = this.scrollScroller.currentOffset().yOffset
         this.showBackTop = Math.floor(currentOffsetY) >= DisplayUtil.getHeight() * 0.5
       })
-      .onScrollStop(()=> {
+      .onScrollStop(() => {
         setTimeout(() => {
           this.isClick = false
-        }, 1000)
+        }, 0)
       })
 
       this.BackTop()
@@ -162,17 +161,9 @@ export struct GoodsDetail {
             .height(this.getUIContext().px2vp(DisplayUtil.getHeight()) * 0.4 )
         }, (item: string) => item)
       }
-      .cachedCount(2)
-      .index(0)
-      .autoPlay(false)
-      .interval(6000)
-      .loop(true)
-      .duration(500)
-      .itemSpace(0)
-      .indicator(CommonDotIndicator(8,8,8,8))
-      .curve(Curve.Linear)
       .width(StyleConstants.FULL_WIDTH)
       .backgroundColor(Color.White)
+      .attributeModifier(new CommonSwiperModifier('goodsTopSliderImg'))
 
       Column() {
         Row() {
@@ -349,9 +340,7 @@ export struct GoodsDetail {
     Column() {
       Column(){
         Text('评价')
-          .fontSize(StyleConstants.FONT_SIZE_SIXTEEN)
-          .fontColor(Color.Black)
-          .fontWeight(FontWeight.Bold)
+          .secondTitle()
 
         List(){
           ForEach(this.goodsDetailInfo.goodsInfo?.appraiseList || [], (item: AppraiseInfo, index: number) => {
@@ -393,16 +382,11 @@ export struct GoodsDetail {
         .width(StyleConstants.FULL_WIDTH)
         .justifyContent(FlexAlign.Center)
       }
-      .alignItems(HorizontalAlign.Start)
-      .justifyContent(FlexAlign.Start)
-      .radiusCard()
+      .WhiteCard()
 
       Column() {
         Text('活动专区')
-          .fontSize(StyleConstants.FONT_SIZE_SIXTEEN)
-          .fontColor('#828181')
-          .margin({bottom: 5})
-          .fontWeight(FontWeight.Normal)
+          .secondTitle()
 
         ImageKnifeComponent({
           imageKnifeOption: {
@@ -414,16 +398,11 @@ export struct GoodsDetail {
         })
           .width(StyleConstants.FULL_WIDTH)
       }
-      .alignItems(HorizontalAlign.Start)
-      .justifyContent(FlexAlign.Start)
-      .radiusCard()
+      .WhiteCard()
 
       Column() {
         Text('店内优选')
-          .fontSize(StyleConstants.FONT_SIZE_SIXTEEN)
-          .fontColor('#828181')
-          .margin({bottom: 5})
-          .fontWeight(FontWeight.Normal)
+          .secondTitle()
 
         ImageKnifeComponent({
           imageKnifeOption: {
@@ -435,9 +414,7 @@ export struct GoodsDetail {
         })
           .width(StyleConstants.FULL_WIDTH)
       }
-      .alignItems(HorizontalAlign.Start)
-      .justifyContent(FlexAlign.Start)
-      .radiusCard()
+      .WhiteCard()
     }
   }
 
@@ -445,10 +422,7 @@ export struct GoodsDetail {
   graphicDetails() {
     Column() {
       Text('详情')
-        .fontSize(StyleConstants.FONT_SIZE_SIXTEEN)
-        .fontColor('#828181')
-        .margin({bottom: 5})
-        .fontWeight(FontWeight.Normal)
+        .secondTitle()
 
       List() {
         LazyForEach(this.introductionImgList, (imgUrl: string) => {
@@ -468,20 +442,12 @@ export struct GoodsDetail {
       }
       .width(StyleConstants.FULL_WIDTH)
     }
-    .alignItems(HorizontalAlign.Start)
-    .justifyContent(FlexAlign.Start)
-    .radiusCard()
+    .WhiteCard()
   }
 
   @Builder
   storeOtherGoods() {
     Column() {
-      // Text('同店好货')
-      //   .fontSize(StyleConstants.FONT_SIZE_SIXTEEN)
-      //   .fontColor('#828181')
-      //   .margin({bottom: 5, left: 10})
-      //   .fontWeight(FontWeight.Normal)
-
       CommodityList({
         categoryCode: "storeOtherGoods",
         scrollController: this.storeGoodsScroller,
@@ -491,15 +457,6 @@ export struct GoodsDetail {
     .alignItems(HorizontalAlign.Start)
     .justifyContent(FlexAlign.Start)
     .margin({ top: 10, bottom: 10})
-    .borderRadius(8)
-  }
-
-  @Styles
-  radiusCard() {
-    .width('calc(100% - 20vp)')
-    .margin({ left: 10, top: 10})
-    .padding(10)
-    .backgroundColor(Color.White)
     .borderRadius(8)
   }
 
@@ -523,11 +480,29 @@ export struct GoodsDetail {
       const imgList = res?.bannerList?.length ? res?.bannerList[0]?.imgList || [] : []
       const colorName = res?.bannerList?.length ? res?.bannerList[0]?.colorName || '' : ''
       const detailImgList = res?.detailInfo?.introductionList?.length ? res?.detailInfo?.introductionList || [] : []
-      // LogUtil.info(['=========colorName:', colorName])
 
       this.currentSkuImgList.setData(imgList)
       this.introductionImgList.setData(detailImgList)
       this.currentColor = colorName
     })
   }
+}
+
+@Extend(Text)
+function secondTitle() {
+  .fontSize(StyleConstants.FONT_SIZE_SIXTEEN)
+  .fontColor('#828181')
+  .margin({bottom: 5})
+  .fontWeight(FontWeight.Normal)
+}
+
+@Extend(Column)
+function WhiteCard() {
+  .alignItems(HorizontalAlign.Start)
+  .justifyContent(FlexAlign.Start)
+  .width('calc(100% - 20vp)')
+  .margin({ left: 10, top: 10})
+  .padding(10)
+  .backgroundColor(Color.White)
+  .borderRadius(8)
 }

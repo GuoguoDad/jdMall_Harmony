@@ -4,20 +4,6 @@
   "data": {
     "bannerList": [
       {
-        "colorId": "color1",
-        "colorName": "黑灰色/红色",
-        "thumb": "https://ik.imagekit.io/guoguodad/mall/detail/f5c28554c39fee6d.jpg",
-        "imgList": [
-          "https://ik.imagekit.io/guoguodad/mall/detail/f5c28554c39fee6d.jpg",
-          "https://ik.imagekit.io/guoguodad/mall/detail/8dff30acead53213.jpg",
-          "https://ik.imagekit.io/guoguodad/mall/detail/1c8f4ba0ccf38c9e.jpg",
-          "https://ik.imagekit.io/guoguodad/mall/detail/44bdb9081eaec2be.jpg",
-          "https://ik.imagekit.io/guoguodad/mall/detail/8ca83cf7694ebd07.jpg",
-          "https://ik.imagekit.io/guoguodad/mall/detail/e71af88949e071ed.jpg",
-          "https://ik.imagekit.io/guoguodad/mall/detail/4de912b7b8ae3bfe.jpg"
-        ]
-      },
-      {
         "colorId": "color2",
         "colorName": "蓝色/黄色",
         "thumb": "https://ik.imagekit.io/guoguodad/mall/detail/0e30192ad676f8a8.jpg",
@@ -29,6 +15,20 @@
           "https://ik.imagekit.io/guoguodad/mall/detail/a93e6f167964bcfb.jpg",
           "https://ik.imagekit.io/guoguodad/mall/detail/11e72ba025a0da3c.jpg",
           "https://ik.imagekit.io/guoguodad/mall/detail/e4ad2acca9283634.jpg"
+        ]
+      },
+      {
+        "colorId": "color1",
+        "colorName": "黑灰色/红色",
+        "thumb": "https://ik.imagekit.io/guoguodad/mall/detail/f5c28554c39fee6d.jpg",
+        "imgList": [
+          "https://ik.imagekit.io/guoguodad/mall/detail/f5c28554c39fee6d.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/8dff30acead53213.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/1c8f4ba0ccf38c9e.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/44bdb9081eaec2be.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/8ca83cf7694ebd07.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/e71af88949e071ed.jpg",
+          "https://ik.imagekit.io/guoguodad/mall/detail/4de912b7b8ae3bfe.jpg"
         ]
       }
     ],

@@ -10,6 +10,7 @@ import {
 } from '@ohos/common'
 import { DisplayUtil, WindowUtil } from '@pura/harmony-utils'
 import { queryHomePageInfo, TabInfo, BannerInfo, NineMenuInfo } from '../../service/homeService'
+import { CommonSwiperModifier } from '../../modifier/swiperModifier'
 
 @Component
 export struct Home {
@@ -174,15 +175,7 @@ export struct Home {
           }, (item: string) => item)
         }
         .borderRadius(6)
-        .cachedCount(2)
-        .index(0)
-        .autoPlay(true)
-        .interval(6000)
-        .loop(true)
-        .duration(500)
-        .itemSpace(0)
-        .indicator(CommonDotIndicator(8,8,8,8))
-        .curve(Curve.Linear)
+        .attributeModifier(new CommonSwiperModifier('ImgSlider'))
       }
       .width(StyleConstants.FULL_WIDTH)
       .padding({left:12, top: 14, right: 12, bottom: 2})
@@ -243,13 +236,8 @@ export struct Home {
     }
     .height(168)
     .width(StyleConstants.FULL_WIDTH)
-    .index(0)
-    .autoPlay(false)
-    .loop(false)
     .backgroundColor(Color.White)
-    .itemSpace(0)
-    .indicator(CommonDotIndicator())
-    .curve(Curve.Linear)
+    .attributeModifier(new CommonSwiperModifier('menuSlier'))
   }
 
   @Builder
