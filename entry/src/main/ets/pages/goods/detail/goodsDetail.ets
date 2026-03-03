@@ -1,8 +1,14 @@
-import { CommonDotIndicator, DataSource, StyleConstants, RouterConstants, CommodityList,
-  FloatingBackTop } from '@ohos/common'
+import {
+  CommonDotIndicator,
+  DataSource,
+  StyleConstants,
+  RouterConstants,
+  CommodityList,
+  FloatingBackTop
+} from '@ohos/common'
 import { ZRoute, ZRouter } from '@hzw/zrouter'
 import { ImageKnifeComponent } from '@ohos/imageknife'
-import { DisplayUtil, LogUtil, PreviewUtil, WindowUtil } from '@pura/harmony-utils'
+import { DisplayUtil } from '@pura/harmony-utils'
 import { AppraiseInfo, BannerInfo, GoodsDetailInfo, queryGoodsDetailInfo } from '../../../service/detailService'
 
 @Entry
@@ -37,18 +43,10 @@ export struct GoodsDetail {
     Column() {
       this.TabHeader()
       List({scroller: this.scrollScroller}) {
-        ListItem(){
-          this.GoodsInfo()
-        }
-        ListItem() {
-          this.EvaluateInfo()
-        }
-        ListItem() {
-          this.graphicDetails()
-        }
-        ListItem(){
-          this.storeOtherGoods()
-        }
+        ListItem(){ this.GoodsInfo() }
+        ListItem(){ this.EvaluateInfo() }
+        ListItem(){ this.graphicDetails() }
+        ListItem(){ this.storeOtherGoods() }
       }
       .friction(0.6)
       .scrollBar(BarState.Off)
@@ -60,11 +58,15 @@ export struct GoodsDetail {
         if(this.isClick) return
         this.topTabCurrentIndex = start
       })
-      .onDidScroll(()=>{
+      .onDidScroll(() => {
         const currentOffsetY = this.scrollScroller.currentOffset().yOffset
         this.showBackTop = Math.floor(currentOffsetY) >= DisplayUtil.getHeight() * 0.5
       })
-      .onScrollStop(()=> this.isClick = false)
+      .onScrollStop(()=> {
+        setTimeout(() => {
+          this.isClick = false
+        }, 1000)
+      })
 
       this.BackTop()
     }
@@ -109,7 +111,6 @@ export struct GoodsDetail {
               .onClick(() => {
                 this.isClick = true
                 this.topTabCurrentIndex = index
-                // this.scrollScroller.scrollToIndex(index, true, ScrollAlign.START, { extraOffset: {value: - this.fixedHeaderHeight, unit: LengthUnit.VP}})
                 this.scrollScroller.scrollToIndex(index, true, ScrollAlign.START)
                 this.storeGoodsScroller.scrollToIndex(0)
               })

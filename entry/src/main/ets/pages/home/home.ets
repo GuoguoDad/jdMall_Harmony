@@ -294,10 +294,6 @@ export struct Home {
       location: ({ x: '85%', y: '90%' }),
       display: (this.showBackTop[this.tabsCurrentIndex] ? Visibility.Visible : Visibility.None),
       onClickFun: (() => {
-        // LogUtil.info([
-        //   'waterFlowScrollerList',
-        //   this.waterFlowScrollerList
-        // ])
         this.waterFlowScrollerList.forEach(scroller => {
           scroller.scrollTo({xOffset: 0, yOffset: 0, animation: { duration: 200, curve: Curve.Friction }})
         })
