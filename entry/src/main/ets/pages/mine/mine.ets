@@ -1,4 +1,4 @@
-import { CommodityList, CommonDotIndicator, DataSource, FloatingBackTop, StyleConstants } from '@ohos/common'
+import { CommodityList, DataSource, FloatingBackTop, StyleConstants } from '@ohos/common'
 import { ImageKnifeComponent } from '@ohos/imageknife'
 import { DisplayUtil, LogUtil } from '@pura/harmony-utils'
 import { CommonSwiperModifier } from '../../modifier/swiperModifier'

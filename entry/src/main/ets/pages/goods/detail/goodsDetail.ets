@@ -1,5 +1,4 @@
 import {
-  CommonDotIndicator,
   DataSource,
   StyleConstants,
   RouterConstants,
@@ -8,7 +7,8 @@ import {
 } from '@ohos/common'
 import { ZRoute, ZRouter } from '@hzw/zrouter'
 import { ImageKnifeComponent } from '@ohos/imageknife'
-import { DisplayUtil } from '@pura/harmony-utils'
+import { DisplayUtil, LogUtil } from '@pura/harmony-utils'
+import { LengthUnit } from '@kit.ArkUI'
 import { AppraiseInfo, BannerInfo, GoodsDetailInfo, queryGoodsDetailInfo } from '../../../service/detailService'
 import { CommonSwiperModifier } from '../../../modifier/swiperModifier'
 
@@ -20,6 +20,7 @@ export struct GoodsDetail {
 
   @State showBackTop: boolean = false
   @State topTabCurrentIndex: number = 0
+  @State topTabOpacity: number = 0
   @State currentSkuIndex: number = 0
   @State currentColor: string = ''
   @State goodsDetailInfo: GoodsDetailInfo = {}
@@ -39,7 +40,7 @@ export struct GoodsDetail {
   }
 
   build() {
-    Column() {
+    Stack() {
       this.TabHeader()
       List({scroller: this.scrollScroller}) {
         ListItem(){ this.GoodsInfo() }
@@ -51,20 +52,20 @@ export struct GoodsDetail {
       .scrollBar(BarState.Off)
       .edgeEffect(EdgeEffect.Spring)
       .width(StyleConstants.FULL_WIDTH)
-      .height(`calc(100% - ${this.tabHeaderHeight}vp)`)
+      .height(StyleConstants.FULL_HEIGHT)
       .backgroundColor($r('app.color.page_background'))
-      .onScrollIndex((start) => {
+      .onScrollIndex((start, center) => {
         if(this.isClick) return
         this.topTabCurrentIndex = start
       })
       .onDidScroll(() => {
         const currentOffsetY = this.scrollScroller.currentOffset().yOffset
-        this.showBackTop = Math.floor(currentOffsetY) >= DisplayUtil.getHeight() * 0.5
+
+        this.showBackTop = Math.floor(currentOffsetY) >= this.getUIContext().px2vp(DisplayUtil.getHeight())
+        this.topTabOpacity = Math.floor(currentOffsetY) >= 50 ? 1 : currentOffsetY / 50
       })
       .onScrollStop(() => {
-        setTimeout(() => {
-          this.isClick = false
-        }, 0)
+        this.isClick = false
       })
 
       this.BackTop()
@@ -110,8 +111,8 @@ export struct GoodsDetail {
               .onClick(() => {
                 this.isClick = true
                 this.topTabCurrentIndex = index
-                this.scrollScroller.scrollToIndex(index, true, ScrollAlign.START)
                 this.storeGoodsScroller.scrollToIndex(0)
+                this.scrollScroller.scrollToIndex(index, true, ScrollAlign.START, { extraOffset: { value: -this.tabHeaderHeight, unit: LengthUnit.VP } })
               })
             }
           },(item: string) => item)
@@ -121,6 +122,7 @@ export struct GoodsDetail {
         .height(StyleConstants.FULL_HEIGHT)
       }
       .width(`calc(100% - 200vp)`)
+      .opacity(this.topTabOpacity)
       .height(StyleConstants.FULL_HEIGHT)
 
       Row() {
@@ -139,9 +141,11 @@ export struct GoodsDetail {
       .height(StyleConstants.FULL_HEIGHT)
     }
     .width(StyleConstants.FULL_WIDTH)
-    .backgroundColor(`rgba(255, 255, 255, 1})`)
+    .backgroundColor(`rgba(255, 255, 255, ${this.topTabOpacity})`)
     .height(this.tabHeaderHeight)
     .padding({top: this.safeTop + 4})
+    .position({x: 0 , y: 0})
+    .zIndex(99)
   }
 
   @Builder
