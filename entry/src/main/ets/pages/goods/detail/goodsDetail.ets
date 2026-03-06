@@ -7,7 +7,7 @@ import {
 } from '@ohos/common'
 import { ZRoute, ZRouter } from '@hzw/zrouter'
 import { ImageKnifeComponent } from '@ohos/imageknife'
-import { DisplayUtil, LogUtil } from '@pura/harmony-utils'
+import { DisplayUtil } from '@pura/harmony-utils'
 import { LengthUnit } from '@kit.ArkUI'
 import { AppraiseInfo, BannerInfo, GoodsDetailInfo, queryGoodsDetailInfo } from '../../../service/detailService'
 import { CommonSwiperModifier } from '../../../modifier/swiperModifier'
@@ -54,7 +54,7 @@ export struct GoodsDetail {
       .width(StyleConstants.FULL_WIDTH)
       .height(StyleConstants.FULL_HEIGHT)
       .backgroundColor($r('app.color.page_background'))
-      .onScrollIndex((start, center) => {
+      .onScrollIndex((start, _) => {
         if(this.isClick) return
         this.topTabCurrentIndex = start
       })
