@@ -7,7 +7,7 @@ import {
 } from '@ohos/common'
 import { ZRoute, ZRouter } from '@hzw/zrouter'
 import { ImageKnifeComponent } from '@ohos/imageknife'
-import { DisplayUtil } from '@pura/harmony-utils'
+import { DisplayUtil, LogUtil } from '@pura/harmony-utils'
 import { LengthUnit } from '@kit.ArkUI'
 import { AppraiseInfo, BannerInfo, GoodsDetailInfo, queryGoodsDetailInfo } from '../../../service/detailService'
 import { CommonSwiperModifier } from '../../../modifier/swiperModifier'
@@ -37,6 +37,8 @@ export struct GoodsDetail {
   aboutToAppear() {
     const goodsId = ZRouter.getInstance().getParamByKey<string>('goodsId')
     this.queryGoodsInfo(goodsId)
+
+
   }
 
   build() {
@@ -54,15 +56,16 @@ export struct GoodsDetail {
       .width(StyleConstants.FULL_WIDTH)
       .height(StyleConstants.FULL_HEIGHT)
       .backgroundColor($r('app.color.page_background'))
-      .onScrollIndex((start, _) => {
-        if(this.isClick) return
-        this.topTabCurrentIndex = start
-      })
-      .onDidScroll(() => {
+      .onDidScroll((scrollOffset) => {
         const currentOffsetY = this.scrollScroller.currentOffset().yOffset
 
         this.showBackTop = Math.floor(currentOffsetY) >= this.getUIContext().px2vp(DisplayUtil.getHeight())
         this.topTabOpacity = Math.floor(currentOffsetY) >= 50 ? 1 : currentOffsetY / 50
+
+        if(this.isClick) return
+        const newOffsetY =  scrollOffset + this.tabHeaderHeight
+        const index = this.scrollScroller.getItemIndex(0, newOffsetY)
+        this.topTabCurrentIndex = index
       })
       .onScrollStop(() => {
         this.isClick = false
