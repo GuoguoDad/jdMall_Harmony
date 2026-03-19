@@ -37,8 +37,6 @@ export struct GoodsDetail {
   aboutToAppear() {
     const goodsId = ZRouter.getInstance().getParamByKey<string>('goodsId')
     this.queryGoodsInfo(goodsId)
-
-
   }
 
   build() {
@@ -47,8 +45,8 @@ export struct GoodsDetail {
       List({scroller: this.scrollScroller}) {
         ListItem(){ this.GoodsInfo() }
         ListItem(){ this.EvaluateInfo() }
-        ListItem(){ this.graphicDetails() }
-        ListItem(){ this.storeOtherGoods() }
+        ListItem(){ this.GraphicDetails() }
+        ListItem(){ this.StoreOtherGoods() }
       }
       .friction(0.6)
       .scrollBar(BarState.Off)
@@ -64,8 +62,8 @@ export struct GoodsDetail {
 
         if(this.isClick) return
         const newOffsetY =  scrollOffset + this.tabHeaderHeight
-        const index = this.scrollScroller.getItemIndex(0, newOffsetY)
-        this.topTabCurrentIndex = index
+        const firstVisibleIndex = this.scrollScroller.getItemIndex(0, newOffsetY)
+        this.topTabCurrentIndex = firstVisibleIndex
       })
       .onScrollStop(() => {
         this.isClick = false
@@ -426,7 +424,7 @@ export struct GoodsDetail {
   }
 
   @Builder
-  graphicDetails() {
+  GraphicDetails() {
     Column() {
       Text('详情')
         .secondTitle()
@@ -453,7 +451,7 @@ export struct GoodsDetail {
   }
 
   @Builder
-  storeOtherGoods() {
+  StoreOtherGoods() {
     Column() {
       CommodityList({
         categoryCode: "storeOtherGoods",
