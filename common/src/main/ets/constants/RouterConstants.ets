@@ -11,4 +11,10 @@ export class RouterConstants {
    * 通用商品列表
    */
   public static readonly commodity_list_comp: string = 'commodity_list_comp'
+
+  /**
+   * 通用webview
+   * @param { url: string, title: stirng }
+   */
+  public static readonly common_webview: string = 'common_webview'
 }

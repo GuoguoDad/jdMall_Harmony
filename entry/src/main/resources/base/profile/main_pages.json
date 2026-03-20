@@ -1,6 +1,7 @@
 {
   "src": [
     "pages/Index",
-    "pages/goods/detail/goodsDetail"
+    "pages/goods/detail/goodsDetail",
+    "pages/webview/webview"
   ]
 }

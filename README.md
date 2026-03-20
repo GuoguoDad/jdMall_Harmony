@@ -5,7 +5,7 @@
 2. 使用@hzw/zrouter路由管理
 3. 网络使用@ohos/axios进行封装
 4. 使用node项目mock服务端接口(mock_server目录)
-5. 目前实现了首页、分类、购物车、我的、商品详情
+5. 目前实现了首页、分类、购物车、我的、商品详情、webview加载h5
 
 * ### 同款Android Kotlin版本（https://github.com/GuoguoDad/jd_mall）
 * ### 同款Flutter版本（https://github.com/GuoguoDad/jd_mall_flutter）
@@ -37,9 +37,9 @@ mock_server nodejs: v18.20.6
 | <img src="images/home.gif" width="200"> | <img src="images/category.gif" width="200"> | <img src="images/cart.gif" width="200"> | 
 
 
-| 我的                                     | 商品详情                                      |
-|-----------------------------------------|-------------------------------------------|
-| <img src="images/mine.gif" width="200"> | <img src="images/detail.gif" width="200"> | 
+| 我的                                     | 商品详情                                      | webview加载h5                                |
+|-----------------------------------------|-------------------------------------------|--------------------------------------------|
+| <img src="images/mine.gif" width="200"> | <img src="images/detail.gif" width="200"> | <img src="images/webview.gif" width="200"> | 
 
 
 # 第三方框架

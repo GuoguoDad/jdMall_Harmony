@@ -5,11 +5,13 @@ import {
   StyleConstants,
   CommodityList,
   FloatingBackTop,
-  DataSource
+  DataSource,
+  RouterConstants
 } from '@ohos/common'
 import { DisplayUtil, WindowUtil } from '@pura/harmony-utils'
 import { queryHomePageInfo, TabInfo, BannerInfo, NineMenuInfo } from '../../service/homeService'
 import { CommonSwiperModifier } from '../../modifier/swiperModifier'
+import { ZRouter } from '@hzw/zrouter'
 
 @Component
 export struct Home {
@@ -218,7 +220,13 @@ export struct Home {
               .margin({top: 4})
               .fontSize(12)
               .fontColor('#4B4B4B')
-          }
+          }.onClick(()=>{
+            ZRouter.getInstance()
+              .setParam({url: item.h5url, title: item.menuName})
+              .setLunchMode(LaunchMode.STANDARD)
+              .setAnimate(true)
+              .navigation(RouterConstants.common_webview)
+          })
         }
       }, (item: NineMenuInfo) => item.menuCode)
     }

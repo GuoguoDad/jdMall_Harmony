@@ -62,8 +62,10 @@ export struct GoodsDetail {
 
         if(this.isClick) return
         const newOffsetY =  scrollOffset + this.tabHeaderHeight
-        const firstVisibleIndex = this.scrollScroller.getItemIndex(0, newOffsetY)
-        this.topTabCurrentIndex = firstVisibleIndex
+        try {
+          const firstVisibleIndex = this.scrollScroller.getItemIndex(0, newOffsetY)
+          this.topTabCurrentIndex = firstVisibleIndex
+        } catch (error) {}
       })
       .onScrollStop(() => {
         this.isClick = false
