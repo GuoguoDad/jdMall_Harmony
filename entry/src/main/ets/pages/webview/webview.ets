@@ -39,10 +39,10 @@ export struct WebView {
           this.loadUrl()
         })
         .onLoadStarted(()=>{
-          this.loadingDialog = DialogHelper.showLoadingDialog()
+          // this.loadingDialog = DialogHelper.showLoadingDialog()
         })
         .onLoadFinished(()=>{
-          DialogHelper.closeDialog(this.loadingDialog)
+          // DialogHelper.closeDialog(this.loadingDialog)
         })
     }
     .width(StyleConstants.FULL_WIDTH)
