@@ -215,7 +215,7 @@ export class EnvConfig {
 | 详情 | POST | `/detail/queryStoreGoodsList` | 店内优选 |
 | 我的 | POST | `/mine/queryMineInfo` | 功能宫格 + 推荐 Tab |
 | 我的 | POST | `/mine/queryRecommendList` | 推荐商品列表 |
-| 公共 | POST | `/common/queryGoodsListByPage` | 分页商品 (每页 15 条，共 5 页) |
+| 公共 | POST | `/common/queryGoodsListByPage` | 分页商品 (每页 16 条，共 5 页) |
 | 公共 | POST | `/common/login` | 登录 (返回 token + 用户信息) |
 
 所有接口统一返回 `{ "code": "0", "msg": null, "data": { ... } }` 结构。
