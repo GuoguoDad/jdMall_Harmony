@@ -46,6 +46,8 @@ export struct CommodityList {
     .padding({left: 10, right: 10})
     .width(StyleConstants.FULL_WIDTH)
     .height(StyleConstants.FULL_HEIGHT)
+    //预加载屏幕外两行，减少快速滚动时的白块
+    .cachedCount(4)
     .nestedScroll({
       scrollForward: NestedScrollMode.PARENT_FIRST,
       scrollBackward: NestedScrollMode.SELF_FIRST
